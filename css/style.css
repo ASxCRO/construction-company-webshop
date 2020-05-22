@@ -1,1 +1,287 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,body {
+  font-family: 'Roboto', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  /* color: #f4f4f4; */
+  color: white;
+}
+
+/* Utility Classes */
+
+.container {
+  margin: auto;
+  max-width: 1100px;
+  padding: 0 2rem;
+
+}
+
+.text-primary {
+  color: rgb(66,139,202);
+}
+
+.l-heading {
+  color: rgb(255,255,255);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.l-heading-dark {
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.m-heading {
+  font-size: 2rem;
+  padding-top: 2rem;
+}
+
+.lead {
+  font-size: 1.3rem;
+  color: rgb(255, 255, 255);
+  margin-bottom: 1.5rem;
+}
+
+.bg-light {
+  color: #333;
+  background: #f4f4f4;
+}
+
+.bg-dark {
+  color: #fff;
+  background: #333;
+}
+
+.bg-primary {
+  color: #fff;
+  background: rgb(66,139,202);
+}
+
+.btn {
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.btn-primary {
+  background: rgb(66,139,202);
+}
+
+.btn-primary:hover {
+  background: rgb(34, 89, 138);
+  color: #f4f4f4;
+}
+
+.btn-dark {
+  border: none;
+  background: #333;
+  color: #fff;
+}
+
+.btn-dark:hover {
+  background: rgb(34, 89, 138);
+}
+
+
+.text-center {
+  text-align: center;
+}
+
+.icon-cog {
+  position: absolute;
+  left:calc(50% - 35px);
+  bottom: 10%;
+  color: white;
+
+  animation: bounce;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+.py-1 {padding: 1rem 0;}
+.py-2 {padding: 2rem 0;}
+.py-3 {padding: 3rem 0;}
+
+/* Navbar */
+#navbar {
+  display: flex;
+  padding: 1rem;
+  justify-content: space-evenly;
+  align-items: center;
+  background: #333;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+#navbar h1 {
+  color: #fff;
+  font-size: 2rem;
+}
+
+#navbar ul {
+  display: flex;
+  list-style: none;
+}
+
+
+#navbar ul li a {
+  color: #fff;
+  padding: 1rem;
+  margin: 0.3rem;
+  background: rgb(66,139,202);
+  border-radius: 10px;
+}
+
+#navbar ul li a:hover {
+  background: rgb(34, 89, 138);
+  color: #f4f4f4;
+}
+
+#navbar .logo {
+  padding-right:5rem;
+}
+
+/* Header: Showcase */
+#showcase {
+  position: relative;
+  background: url('../img/vsmtiBuilding.jpg') no-repeat center center/cover;
+  height: 100vh;
+}
+
+
+#showcase .showcase-content {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 0 2rem;
+  /* Overlay */
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0,0,0,0.6)
+}
+
+/* Tabs */
+
+#tabs a.item {
+  color: white!important;
+}
+
+#tabs a.item.active {
+  color: #333!important;
+}
+
+.ui.bottom.attached.tab.segment{
+  overflow: scroll;
+  height: 55vh;
+}
+
+
+/* Section: What We Do */
+#what {
+  background: #f4f4f4;
+}
+
+#what .items {
+  display: flex;
+  padding: 1rem;
+  text-align: center;
+}
+
+#what .items .item {
+  flex: 1;
+  padding: 1rem;
+  line-height: 1.3rem;
+}
+
+#what .items .item i {
+  padding: 1rem;
+  background: rgb(66,139,202);
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  border: 2px solid #333;
+}
+
+
+
+/* Section: Clients */
+
+
+#clients .clients-img { 
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 50% 50%;
+  column-gap: 2rem;
+  row-gap: 2rem;
+}
+
+#clients .clients-img img {
+  margin: auto auto;
+  width: 40%;
+}
+
+
+
+
+/* Section: Contact + Map */
+#contact {
+  display: flex;
+}
+
+#contact #mapDiv {
+  flex: 2;
+}
+
+#contact .contact-form {
+  flex:1;
+  padding: 1rem;
+}
+
+#contact .contact-form p {
+  padding: 0.5rem 0;
+}
+
+#contact .contact-form .form-item {
+  margin: 1rem 0;
+}
+
+#contact .contact-form label {
+  display: block;
+  padding-bottom: 0.2rem
+}
+
+#contact .contact-form input,
+#contact .contact-form textarea
+ {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+#contact .btn {
+  width: 100%;
+}
+
+/* Footer */
+#footer  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4rem;
+}
+
