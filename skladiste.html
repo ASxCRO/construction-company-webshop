@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="./bundle/animateCSS/animate.min.css">
   <link rel="stylesheet" type="text/css" href="./bundle/semanticUI/dist/semantic.min.css">
   <link rel="stylesheet" href="./css/style.css">
-  <link rel="stylesheet" href="./css/sign.css">
+  <link rel="stylesheet" href="./css/skladiste.css">
   <link rel="stylesheet" media="screen and (max-width:768px)" href="./css/mobile.css">
   <title>VŠMTI GRADNJA | Visokogradnja, Niskogradnja, i usluge!</title>
 </head>
@@ -30,53 +30,51 @@
       <div class="results"></div>
     </div>
 
-    <a href="#" class="logo">
+    <a href="index.html" class="logo">
       <img src="./img/vsmtiSkladiste.png" alt="VSMTI-GRADNJA-DOO">
     </a>
 
     <ul>
-      <li class="py-2"><a href="./index.html"><i class="fas fa-arrow-left"></i> Početna</a></li>
+      <li class="py-2"><a onclick="Logout()" href="./index.html"><i class="fas fa-arrow-left"></i> Odjava</a></li>
     </ul>
   </nav>
 
 
-
-  <!-- Showcase -->
+  <!-- Tabs -->
   <section id="showcase">
-    <div class="showcase-content-sign">
-      <div class="container">
-        <div class="form-wrap">
-          <i class="fas fa-user-circle fa-5x"></i>
-          <h1>Prijavite se</h1>
-          <form>
-            <div class="form-group">
-              <input type="username" name="username" id="username" placeholder="Korisničko ime">
-            </div>
-            <div class="form-group">
-              <input type="password" name="password" id="password" placeholder="Zaporka">
-            </div>
-            <div class="rememberDiv">
-              <span class="rememberSpan"> Zapamti me</span>
-              <div class="ui right floated compact segment">
-                <div class="ui fitted toggle checkbox">
-                  <input type="checkbox">
-                  <label></label>
+    <div class="showcase-content-skladiste">
+      <section id="tabs" class="py-3 text-primary">
+        <div class="container">
+          <div class="ui top attached tabular menu">
+            <a class="item active" data-tab="first">Skladište</a>
+            <a class="item" data-tab="second" id="stanjeTabHeader">Stanje</a>
+            <a class="item" data-tab="third" id="dokumentiTabHeader">Dokumenti</a>
+          </div>
+          <div class="ui bottom attached tab segment active" data-tab="first">
+            <section id="showcase" class="showcase-skladiste">
+              <div class="showcase-content">
+                <div class="container">
+                  <h2 class="l-heading">Dobrodošli u upravitelj skladišta</h1>
+                    <a onclick="RedirectToStanjeTab()" class="btn btn-primary btn-lg">Stanje na skladištu</a>
+                    <a onclick="RedirectToDokumentiTab()" class="btn btn-primary btn-lg">Upravitelj dokumenata</a>
                 </div>
               </div>
-            </div>
-            <button type="button" class="btn" onclick="Login()">Prijava</button>
-          </form>
+            </section>
+          </div>
+          <div class="ui bottom attached tab segment" data-tab="second" id="stanjeTabContent">
+
+          </div>
+          <div class="ui bottom attached tab segment bg-light" data-tab="third" id="dokumentiTabContent">
+
+          </div>
         </div>
-      </div>
+      </section>
     </div>
-    <a href="#what">
-      <i class="far fa-arrow-alt-circle-up fa-5x icon-cog py-3"></i>
-    </a>
   </section>
 
   <!-- Footer -->
   <footer id="footer" class="bg-light text-center">
-    <p>Copyright &copy; 2020, ASXCRO.  All Rights Reserved.</p>
+    <p>Copyright &copy; 2020, ASXCRO. All Rights Reserved.</p>
   </footer>
 
 
@@ -90,7 +88,7 @@
   <script src="./bundle/semanticUI/dist/semantic.min.js"></script>
 
   <!-- Local JS  -->
-  <script src="./js/sign-in.js"></script>
+  <script src="./js/skladiste.js"></script>
 </body>
 
 </html>

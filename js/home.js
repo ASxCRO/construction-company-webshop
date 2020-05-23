@@ -34,7 +34,7 @@ window.addEventListener('scroll', function() {
 
 
 // Smooth Scrolling
-$('#navbar a, .btn').on('click', function(event) {
+$('#navbar a, .btn, #showcase a').on('click', function(event) {
   if (this.hash !== '') {
     event.preventDefault();
 
@@ -69,6 +69,6 @@ $( document ).ready(function() {
   marker = L.marker([lat, lon]).addTo(map);
 
   // add popup to the marker
-  marker.bindPopup("<b>ASXCRO </b><br />Trg Sv.Trojstva 1<br />Požega").openPopup();
+  marker.bindPopup("<b>ASXCRO </b><br />Trg Sv.Trojstva 1<br />Požega<br /> +385994114013").openPopup();
 
 });

@@ -242,6 +242,7 @@ a {
 /* Section: Contact + Map */
 #contact {
   display: flex;
+  height: 100%;
 }
 
 #contact #mapDiv {
