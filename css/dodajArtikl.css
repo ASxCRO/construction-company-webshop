@@ -1,0 +1,54 @@
+
+#showcase .showcase-content {
+  justify-content: flex-start!important;
+  align-items: flex-start!important;
+}
+
+.container {
+  margin: 2rem 0;
+}
+
+
+.flex-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 5rem 0;
+}
+
+.flex-container .input,
+.flex-container select 
+{
+  margin: 2rem 1rem;
+}
+
+hr {
+  border-top: 3px solid #fff;
+}
+
+.plus-icon {
+  color: rgb(66,139,202);
+  display: flex;
+  align-items: center;
+}
+
+.plus-icon:hover {
+  color:rgb(34, 89, 138);
+  cursor: grab;
+}
+
+.add-header {
+  display: flex;
+  align-items:center;
+  justify-content: center;
+}
+
+.plus-icon-add
+{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
