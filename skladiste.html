@@ -47,27 +47,22 @@
   <section id="showcase">
     <div class="showcase-content-skladiste">
       <section id="tabs" class="py-3 text-primary">
-        <div class="container">
           <div class="ui top attached tabular menu">
             <a class="item active" data-tab="first">Skladište</a>
             <a class="item" data-tab="second" id="stanjeTabHeader">Stanje</a>
             <a class="item" data-tab="third" id="dokumentiTabHeader">Dokumenti</a>
           </div>
-          <div class="ui bottom attached tab segment active" data-tab="first">
-            <section id="showcase" class="showcase-skladiste">
-              <div class="showcase-content">
-                <div class="container">
-                  <h2 class="l-heading">Dobrodošli u upravitelj skladišta</h2>
-                    <a onclick="RedirectToStanjeTab()" class="btn btn-primary btn-lg">Stanje na skladištu</a>
-                    <a onclick="RedirectToDokumentiTab()" class="btn btn-primary btn-lg">Upravitelj dokumenata</a>
-                </div>
+          <div class="ui bottom attached tab segment active" data-tab="first" id="skladisteTabContent">
+            
+            <div class="flex-container">
+              <div class="home-header">
+                <h2 class="l-heading">Dobrodošli u upravitelj skladišta</h2>
               </div>
-            </section>
+              <a onclick="RedirectToStanjeTab()" class="btn btn-primary btn-lg">Stanje na skladištu</a>
+              <a onclick="RedirectToDokumentiTab()" class="btn btn-primary btn-lg">Upravitelj dokumenata</a>
+            </div>
           </div>
           <div class="ui bottom attached tab segment" data-tab="second" id="stanjeTabContent">
-            <section id="showcase" class="showcase-skladiste">
-              <div class="showcase-content">
-                <div class="container">
                   <div class="header">
                     <h2 class="l-heading">Stanje na skladištu</h2>
                     <div class="plus-icon" onclick="window.location.pathname = '/dodajArtikl.html'"><i class="fas fa-plus-circle fa-5x"></i><span> Dodaj Artikl</span></div>
@@ -103,194 +98,188 @@
                       </div>
                     </div>
                   </div>
-                  <table class="display cell-border hover row-border stripe" id="stanjeTablica">
-                    <thead>
-                      <tr>
-                        <th>Ime</th>
-                        <th>Prezime</th>
-                        <th>Starost</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                      <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                      </tr>
-                      <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </section>
+                  <div>
+                    <table class="display cell-border hover row-border stripe" id="stanjeTablica">
+                      <thead>
+                        <tr>
+                          <th>Ime</th>
+                          <th>Prezime</th>
+                          <th>Starost</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                        <tr>
+                          <td>Jill</td>
+                          <td>Smith</td>
+                          <td>50</td>
+                        </tr>
+                        <tr>
+                          <td>Eve</td>
+                          <td>Jackson</td>
+                          <td>94</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
           </div>
           <div class="ui bottom attached tab segment" data-tab="third" id="dokumentiTabContent">
-            <section id="showcase" class="showcase-skladiste">
-              <div class="showcase-content">
                 <div class="container">
                   <div class="header">
                     <h2 class="l-heading">Pregled dokumenata</h2>
                     <div class="plus-icon"><i class="fas fa-plus-circle fa-5x"></i><span> Novi Dokument</span></div>
                   </div>
                 </div>
-              </div>
-            </section>
           </div>
-        </div>
       </section>
     </div>
   </section>

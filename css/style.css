@@ -156,6 +156,7 @@ a {
   position: relative;
   background: url('../img/vsmtiBuilding.jpg') no-repeat center center/cover;
   height: 100vh;
+  width: 100%;
 }
 
 
@@ -187,7 +188,8 @@ a {
   color: #333!important;
 }
 
-.ui.bottom.attached.tab.segment{
+#tabs .ui.bottom.attached.tab.segment{
+  overflow: scroll;
   height: 55vh;
 }
 

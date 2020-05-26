@@ -45,8 +45,9 @@ $.extend( true, $.fn.dataTable.defaults, {
       },
       "dom": '<"top"i>t<"bottom"flp><"clear">',
       "lengthMenu": [[2, 4, 6,8], [2, 4, 6,8]],
+      responsive: true
 } );
 
 $(document).ready(function() {
-  $('#stanjeTablica').DataTable();
+  $('#stanjeTablica').DataTable().columns.adjust();
 });
