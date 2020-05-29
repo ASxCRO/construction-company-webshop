@@ -46,7 +46,7 @@
   <!-- Tabs -->
   <section id="showcase">
     <div class="showcase-content-skladiste">
-      <section id="tabs" class="py-3 text-primary">
+      <section id="tabs" class="text-primary">
           <div class="ui top attached tabular menu">
             <a class="item active" data-tab="first">Skladište</a>
             <a class="item" data-tab="second" id="stanjeTabHeader">Stanje</a>
@@ -273,12 +273,203 @@
                   </div>
           </div>
           <div class="ui bottom attached tab segment" data-tab="third" id="dokumentiTabContent">
-                <div class="container">
-                  <div class="header">
-                    <h2 class="l-heading">Pregled dokumenata</h2>
-                    <div class="plus-icon"><i class="fas fa-plus-circle fa-5x"></i><span> Novi Dokument</span></div>
-                  </div>
-                </div>
+            <div class="header">
+              <h2 class="l-heading">Pregled dokumenata</h2>
+              <div class="plus-icon" onclick="window.location.pathname = '/dodajDokument.html'"><i class="fas fa-plus-circle fa-5x"></i><span> Dodaj Dokument</span></div>
+            </div>
+            <div class="filter">
+              <i class="fas fa-filter fa-3x"></i>
+              <div class="ui input">
+                <input type="text" placeholder="Oznaka dokumenta">
+              </div>
+              <div class="ui input">
+                <input type="text" placeholder="Datum stvaranja">
+              </div>
+              <select class="ui search dropdown">
+                <option value="undef">Vrsta dokumenta(sve)</option>
+                <option value="IZ">Izdatnica</option>
+                <option value="PR">Primka</option>
+              </select>
+              <div class="ui input">
+                <input type="number" placeholder="Količina od">
+              </div>
+              <div class="ui input">
+                <input type="number" placeholder="Količina do">
+              </div>
+            </div>
+            <div>
+              <table class="display cell-border hover row-border stripe" id="dokumentiTablica">
+                <thead>
+                  <tr>
+                    <th>Ime</th>
+                    <th>Prezime</th>
+                    <th>Starost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                  <tr>
+                    <td>Jill</td>
+                    <td>Smith</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Eve</td>
+                    <td>Jackson</td>
+                    <td>94</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
       </section>
     </div>

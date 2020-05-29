@@ -33,12 +33,12 @@ a {
   color: rgb(255,255,255);
   font-size: 2.5rem;
   margin-bottom: 2rem;
+  display: block;
+  width: 100%;
 }
 
 .l-heading-dark {
   color: #333;
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
 }
 
 .m-heading {
@@ -190,7 +190,7 @@ a {
 
 #tabs .ui.bottom.attached.tab.segment{
   overflow: scroll;
-  height: 55vh;
+  min-height: 55vh;
 }
 
 

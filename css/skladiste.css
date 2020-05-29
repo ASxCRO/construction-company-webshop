@@ -5,6 +5,7 @@
   font-size: 2rem;
   padding: 2rem 3rem;
   border: #eee 2px solid;
+
 }
 
 .btn-lg:hover {
@@ -25,23 +26,18 @@
 
 #showcase {
   min-height: 100%!important;
-  height: auto;
+  height: 100%;
 }
 
 .showcase-content-skladiste {
 
   text-align: center;
-  min-height: 100%;
-  padding: 0 2rem;
+  height: 100%;
+  padding: 2rem 2rem;
   /* Overlay */
   background-color: rgba(0,0,0,0.6)
 }
 
-
-
-.showcase-content {
-  display: block!important;
-}
 
 #stanjeTabContent #showcase .showcase-content .l-heading,
 #dokumentiTabContent #showcase .showcase-content .l-heading {
@@ -97,7 +93,7 @@
 
 
 
-th {
+.display th {
   padding: 1rem 2rem!important;
   background-color: white!important;
   font-size: 1.5rem;
@@ -122,7 +118,7 @@ th {
   color: white;
 }
 
-#stanjeTablica {
+table.display {
   margin-bottom: 3rem;
 }
 
@@ -155,6 +151,7 @@ th {
   overflow: unset;
   min-height:100%;
   height: auto;
+
 }
 
 table.display {

@@ -50,4 +50,5 @@ $.extend( true, $.fn.dataTable.defaults, {
 
 $(document).ready(function() {
   $('#stanjeTablica').DataTable().columns.adjust();
+  $('#dokumentiTablica').DataTable().columns.adjust();
 });
