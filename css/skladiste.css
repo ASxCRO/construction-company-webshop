@@ -1,0 +1,159 @@
+.btn-lg {
+  display: block;
+  width: 100%;
+  margin: 2.5rem auto;
+  font-size: 2rem;
+  padding: 2rem 3rem;
+  border: #eee 2px solid;
+
+}
+
+.btn-lg:hover {
+  cursor: pointer;
+}
+
+.l-heading {
+  margin-bottom: 5rem;
+}
+
+.logo {
+  padding-right: 0px!important;
+}
+
+.showcase-skladiste {
+  height: 90%!important;
+}
+
+#showcase {
+  min-height: 100%!important;
+  height: 100%;
+}
+
+.showcase-content-skladiste {
+
+  text-align: center;
+  height: 100%;
+  padding: 2rem 2rem;
+  /* Overlay */
+  background-color: rgba(0,0,0,0.6)
+}
+
+
+#stanjeTabContent #showcase .showcase-content .l-heading,
+#dokumentiTabContent #showcase .showcase-content .l-heading {
+  margin: 0;
+  text-align: left;
+}
+
+.plus-icon {
+  color: rgb(66,139,202);
+  display: flex;
+  align-items: center;
+}
+
+.plus-icon:hover {
+  color:rgb(34, 89, 138);
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home-header {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.header span {
+  font-size: 1.5rem;
+  margin-left: 1rem;
+}
+
+
+.filter {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.filter .input,
+.filter .dropdown{
+  margin-top: 1rem;
+  border-radius: 5px;
+}
+
+
+
+.display th {
+  padding: 1rem 2rem!important;
+  background-color: white!important;
+  font-size: 1.5rem;
+  border-left: 2px dashed #333;
+}
+.rememberDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rememberSpan  {
+  font-size: 1.5rem;
+  color: white
+}
+
+#tabs a.paginate_button.item{
+  color: #333!important;
+}
+
+#tabs label {
+  color: white;
+}
+
+table.display {
+  margin-bottom: 3rem;
+}
+
+#tabs {
+  min-height: 100%;
+}
+
+#skladisteTabContent,
+#stanjeTabContent,
+#dokumentiTabContent{
+  background: rgba(0,0,0,0);
+  padding: 2rem;
+}
+
+.flex-container {
+  height: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-container a,
+.flex-container .heading {
+  width: 80%;
+}
+
+#tabs .ui.bottom.attached.tab.segment {
+  overflow: unset;
+  min-height:100%;
+  height: auto;
+
+}
+
+table.display {
+  min-width: 100%;
+}

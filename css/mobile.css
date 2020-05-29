@@ -1,0 +1,90 @@
+#what .items {
+  display: block;
+  padding: 1rem;
+}
+
+#what .items .item {
+  display: flex;
+  text-align: left;
+}
+
+#what .items .item i {
+  margin-right: 1.3rem;
+  align-self: center;
+  margin-bottom: 0;
+}
+
+.ui.search {
+  display: none;
+}
+
+
+@media screen and (max-width: 500px) {
+  #navbar {
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: row;;
+  }
+
+  #navbar .logo {
+    margin-bottom: 1.5rem;
+  }
+
+ 
+
+  #what .items .item {
+    border-bottom: 1px solid #333;
+  }
+  
+  #what .items .item:last-child {
+    border: none;
+  }
+
+  #who .who-img {
+    display: none;
+  }
+
+  #clients .clients-img img:last-child {
+    display: none;
+  }
+
+
+  .clients-img {
+    flex-direction: column;
+  }
+  
+
+  #clients .clients-img img {
+    width: 40%;
+    display: block; 
+  }
+
+  #contact {
+    display: block;
+  }
+
+  #contact #mapDiv {
+    height: 40vh;
+  }
+
+  #footer p{
+    padding: 0 2rem;
+  }
+}
+
+
+@media screen and (max-width: 360px){
+ #navbar {
+    flex-direction: column;
+  }
+
+  #navbar .logo {
+    padding-bottom: 0rem;
+  }
+
+  #navbar ul li a {
+    padding: 0.3rem;
+    border-radius: 5px;
+  }
+
+}
