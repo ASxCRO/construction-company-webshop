@@ -39,12 +39,14 @@ $.extend( true, $.fn.dataTable.defaults, {
       order: [[ 2, "desc" ]],
       stateSave: true,
       "language": {
-        "decimal": ",",
-        "thousands": ".",
+        "decimal": ".",
+        "thousands": ",",
         "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Croatian.json"
       },
       "dom": '<"top"i>t<"bottom"flp><"clear">',
       "lengthMenu": [[2, 4, 6,8], [2, 4, 6,8]],
+    "pageLength":8,
+
       responsive: true
 } );
 

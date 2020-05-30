@@ -1,8 +1,41 @@
-function Login()
-{
-	console.log(window.location);
-	window.location.pathname	 = "/skladiste.html";
-}
+var SignModule = angular.module('SignModule', []);
+
+SignModule.controller('SignController', function($scope, $http){ //tijelo kontrolera
+		$scope.username = "";
+		$scope.password = "";
+		$scope.rememberMe = false;
+		$scope.baseUrl = window.location.protocol + '//' + window.location.host;
+		$http.defaults.headers.post["Content-Type"] = "application/json";
+		$scope.Login = function() {
+			$http({
+				method: 'POST',
+				url: $scope.baseUrl + "/Projekt/api/action.php",
+				data: JSON.stringify({				
+					username: $scope.username,
+					password: $scope.password,
+					rememberMe: $scope.rememberMe,
+					jsonid: "checkUserLogin"
+				})
+			}).then(function successCallback(response) {
+						if(response.data.status === 'redirect' && response.data.userLoggedIn == 'true') {// Check all condition
+							location.href =  $scope.baseUrl + response.data.route;
+						}
+						else {
+							alert('Korisničko ime i/ili zaporka nije valjano.')
+						}
+				}, function errorCallback(response) {
+					console.log("Greska");
+				});
+		};
+		$scope.rememberMeChange = function() {
+			if($scope.rememberMe == false)
+			{
+				$scope.rememberMe = true;
+			} else {
+				$scope.rememberMe = false;
+			}
+		};
+});
 
 
 

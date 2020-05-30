@@ -20,19 +20,11 @@
   padding-right: 0px!important;
 }
 
-.showcase-skladiste {
-  height: 90%!important;
-}
-
-#showcase {
-  min-height: 100%!important;
-  height: 100%;
-}
 
 .showcase-content-skladiste {
 
   text-align: center;
-  height: 100%;
+  min-height: 100vh;
   padding: 2rem 2rem;
   /* Overlay */
   background-color: rgba(0,0,0,0.6)

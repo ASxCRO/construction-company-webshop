@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html >
+<html lang="en" ng-app="SignModule">
 
 <head>
   <meta charset="UTF-8">
@@ -18,7 +18,7 @@
   <title>VŠMTI GRADNJA | Visokogradnja, Niskogradnja, i usluge!</title>
 </head>
 
-<body>
+<body ng-controller="SignController">
 
   <!-- Navbar -->
   <nav id="navbar">
@@ -50,21 +50,21 @@
           <h1>Prijavite se</h1>
           <form>
             <div class="form-group">
-              <input type="username" name="username" id="username" placeholder="Korisničko ime">
+              <input type="username" name="username" id="username" placeholder="Korisničko ime" ng-model="username">
             </div>
             <div class="form-group">
-              <input type="password" name="password" id="password" placeholder="Zaporka">
+              <input type="password" name="password" id="password" placeholder="Zaporka" ng-model="password">
             </div>
             <div class="rememberDiv">
               <span class="rememberSpan"> Zapamti me</span>
               <div class="ui right floated compact segment">
                 <div class="ui fitted toggle checkbox">
-                  <input type="checkbox">
+                  <input type="checkbox" ng-model="rememberMe">
                   <label></label>
                 </div>
               </div>
             </div>
-            <button type="button" class="btn" onclick="Login()">Prijava</button>
+            <button type="button" class="btn" ng-click="Login()">Prijava</button>
           </form>
         </div>
       </div>
@@ -85,6 +85,10 @@
   <script src="./bundle/jQuery/jquery-3.5.1.min.js"></script>
 
   <script src="./bundle/jQuery/jquery.initialize.min.js"></script>
+
+  <!-- angularJS -->
+  <script src="./bundle/angularJS/angular.min.js"></script>
+
 
   <!-- Semantic UIJS -->
   <script src="./bundle/semanticUI/dist/semantic.min.js"></script>
