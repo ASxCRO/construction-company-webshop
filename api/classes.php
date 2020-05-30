@@ -73,14 +73,14 @@ class Document
 {
   public $m_id;
   public $m_vrsta;
-  public $m_naziv;
+  public $m_datum;
   public $m_iznos;
 
-  public function __construct($id, $vrsta, $naziv, $iznos)
+  public function __construct($id, $vrsta, $datum, $iznos)
   {
     $this->m_id = $id;
     $this->m_vrsta = $vrsta;
-    $this->m_naziv = $naziv;
+    $this->m_datum = $datum;
     $this->m_iznos = $iznos;
   }
 
@@ -91,7 +91,7 @@ class Document
     $aDocuments = [];
     while($oRow = $oRecord->fetch(PDO::FETCH_BOTH)) 
     { 
-      $oDocument =  new Document($oRow['id'],$oRow['vrsta'],$oRow['naziv'],$oRow['iznos']);
+      $oDocument =  new Document($oRow['id'],$oRow['vrsta'],$oRow['datum'],$oRow['iznos']);
       array_push($aDocuments,$oDocument);
     }
     return $aDocuments;
@@ -109,13 +109,15 @@ class Article
 {
   public $m_id;
   public $m_naziv;
+  public $m_grupa;
   public $m_jmj;
-  public $m_iznos;
+  public $m_cijena;
 
-  public function __construct($id,$naziv, $jmj,$cijena)
+  public function __construct($id,$naziv,$grupa, $jmj,$cijena)
   {
     $this->m_id = $id;
     $this->m_naziv = $naziv;
+    $this->m_grupa = $grupa;
     $this->m_jmj = $jmj;
     $this->m_cijena = $cijena;
   }
@@ -127,7 +129,7 @@ class Article
     $aArticles = [];
     while($oRow = $oRecord->fetch(PDO::FETCH_BOTH)) 
     { 
-      $oArticle =  new Article($oRow['id'],$oRow['naziv'],$oRow['jmj'],$oRow['cijena']);
+      $oArticle =  new Article($oRow['id'],$oRow['naziv'],$oRow['grupa'],$oRow['jmj'],$oRow['cijena']);
       array_push($aArticles,$oArticle);
     }
     return $aArticles;
@@ -135,8 +137,20 @@ class Article
 
   public static function dohvatiArtikleJSON()
   {
-    $myJSON = json_encode(Article::dohvatiArtikleIzBaze());
-    echo $myJSON;
+    header('Content-type:application/json');
+    $json = json_encode(Article::dohvatiArtikleIzBaze());
+    if ($json === false) {
+      // Avoid echo of empty string (which is invalid JSON), and
+      // JSONify the error message instead:
+      $json = json_encode(["jsonError" => json_last_error_msg()]);
+      if ($json === false) {
+          // This should not happen, but we go all the way now:
+          $json = '{"jsonError":"unknown"}';
+      }
+      // Set HTTP response status code to: 500 - Internal Server Error
+      http_response_code(500);
+    }
+    echo $json;
   }
 }
 

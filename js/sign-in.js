@@ -1,8 +1,13 @@
 var SignModule = angular.module('SignModule', []);
 
 SignModule.controller('SignController', function($scope, $http){ //tijelo kontrolera
+	if (localStorage.getItem("username") === null) {
 		$scope.username = "";
 		$scope.password = "";
+	} else if (localStorage.getItem("username") != null && localStorage.getItem("password") != null) {
+		$scope.username = localStorage.getItem('username');
+		$scope.password = localStorage.getItem('password');
+	}
 		$scope.rememberMe = false;
 		$scope.baseUrl = window.location.protocol + '//' + window.location.host;
 		$http.defaults.headers.post["Content-Type"] = "application/json";
@@ -19,6 +24,11 @@ SignModule.controller('SignController', function($scope, $http){ //tijelo kontro
 			}).then(function successCallback(response) {
 						if(response.data.status === 'redirect' && response.data.userLoggedIn == 'true') {// Check all condition
 							location.href =  $scope.baseUrl + response.data.route;
+							if($scope.rememberMe == true)
+							{
+								localStorage.setItem('username',$scope.username);
+								localStorage.setItem('password',$scope.password);
+							}
 						}
 						else {
 							alert('Korisničko ime i/ili zaporka nije valjano.')

@@ -9,22 +9,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST))
 if (isset($_POST["jsonid"]))
 {
   $jsonid = $_POST['jsonid'];
-switch ($jsonid) {
-  case 'get_all_documents':
-    User::dohvatiUsereJSON();
-    break;
-  case 'get_all_docart':
-    DocumentArticle::dohvatiDocArtJSON();
-    break;
-  case 'get_all_articles':
-    Article::dohvatiArtikleJSON();
-    break;
-  case "checkUserLogin":
-      User::Login($_POST['username'], $_POST['password']);
-    break;
-  default:
-    break;
-}
+  switch ($jsonid) {
+    case 'get_all_documents':
+      Document::dohvatiDokumenteJSON();
+      break;
+    case 'get_all_docart':
+      DocumentArticle::dohvatiDocArtJSON();
+      break;
+    case 'get_all_articles':
+      Article::dohvatiArtikleJSON();
+      break;
+    case "checkUserLogin":
+        User::Login($_POST['username'], $_POST['password']);
+      break;
+    default:
+      break;
+  }
 } 
 else 
 {

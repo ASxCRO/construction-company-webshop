@@ -1,6 +1,4 @@
-$('.menu .item')
-.tab()
-;
+$('.menu .item').tab();
 
 function RemoveActiveTab()
 {
@@ -49,8 +47,65 @@ $.extend( true, $.fn.dataTable.defaults, {
 
       responsive: true
 } );
-
 $(document).ready(function() {
-  $('#stanjeTablica').DataTable().columns.adjust();
-  $('#dokumentiTablica').DataTable().columns.adjust();
+   $('#stanjeTablica').DataTable().columns.adjust();
+   $('#dokumentiTablica').DataTable().columns.adjust();
+});
+
+var SkladisteModule = angular.module('skladisteModule', []);
+SkladisteModule.controller('skladisteController', function($scope, $http){
+    angular.element(document).ready(function () {
+        $scope.LoadStanje();
+        $scope.LoadDocuments();
+    });
+    $scope.aStanje = [];
+    $scope.aDocuments = [];
+    $scope.baseUrl = window.location.protocol + '//' + window.location.host;
+		$http.defaults.headers.post["Content-Type"] = "application/json";
+		$scope.LoadStanje = function() {
+			$http({
+				method: 'POST',
+				url: $scope.baseUrl + "/Projekt/api/action.php",
+				data: JSON.stringify({				
+					jsonid: "get_all_articles"
+				})
+			}).then(function successCallback(response) {
+          $scope.aStanje = response.data;
+          $scope.aStanje.forEach(element => {
+            $('#stanjeTablica').dataTable().fnAddData( [
+              element.m_id,
+              element.m_naziv,
+              element.m_grupa,
+              element.m_cijena,
+              "",
+              "" ] );
+          
+          });
+
+				}, function errorCallback(response) {
+					console.log("Greska");
+				});
+		};
+		$scope.LoadDocuments = function() {
+			$http({
+				method: 'POST',
+				url: $scope.baseUrl + "/Projekt/api/action.php",
+				data: JSON.stringify({				
+					jsonid: "get_all_documents"
+				})
+			}).then(function successCallback(response) {
+          $scope.aDocuments = response.data;
+          $scope.aDocuments.forEach(element => {
+            $('#dokumentiTablica').dataTable().fnAddData( [
+              element.m_id,
+              element.m_vrsta,
+              element.m_datum,
+              "",
+              element.m_iznos] );
+          });
+				}, function errorCallback(response) {
+					console.log("Greska");
+				});
+		};
+		
 });

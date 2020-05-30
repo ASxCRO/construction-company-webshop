@@ -3,7 +3,7 @@ session_start();
 ?>
 
 <!DOCTYPE html>
-<html lang='en'>
+<html lang='hr' ng-app="skladisteModule">
 
 <head>
   <meta charset='UTF-8'>
@@ -25,7 +25,7 @@ session_start();
   <title>VŠMTI GRADNJA | Visokogradnja, Niskogradnja, i usluge!</title>
 </head>
 
-<body>
+<body ng-controller="skladisteController">
   
   <!-- Navbar -->
   <nav id="navbar">
@@ -106,172 +106,16 @@ session_start();
                     <table class='display cell-border hover row-border stripe' id='stanjeTablica'>
                       <thead>
                         <tr>
-                          <th>Ime</th>
-                          <th>Prezime</th>
-                          <th>Starost</th>
+                          <th>Oznaka</th>
+                          <th>Naziv</th>
+                          <th>Grupa</th>
+                          <th>Cijena</th>
+                          <th>Količina</th>
+                          <th>Ukupno HRK</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
-                        <tr>
-                          <td>Jill</td>
-                          <td>Smith</td>
-                          <td>50</td>
-                        </tr>
-                        <tr>
-                          <td>Eve</td>
-                          <td>Jackson</td>
-                          <td>94</td>
-                        </tr>
+
                       </tbody>
                     </table>
                   </div>
@@ -305,172 +149,15 @@ session_start();
               <table class='display cell-border hover row-border stripe' id='dokumentiTablica'>
                 <thead>
                   <tr>
-                    <th>Ime</th>
-                    <th>Prezime</th>
-                    <th>Starost</th>
+                    <th>Oznaka</th>
+                    <th>Vrsta</th>
+                    <th>Datum</th>
+                    <th>Artikli</th>
+                    <th>Iznos</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
-                  <tr>
-                    <td>Jill</td>
-                    <td>Smith</td>
-                    <td>50</td>
-                  </tr>
-                  <tr>
-                    <td>Eve</td>
-                    <td>Jackson</td>
-                    <td>94</td>
-                  </tr>
+
                 </tbody>
               </table>
             </div>
@@ -479,28 +166,52 @@ session_start();
     </div>
   </section>";}
   else {
-    echo '<p>Morate se prvo ulogirati.</p>';
-  }?>  <!-- Tabs -->
+    echo '
+    <section id="showcase">
+      <div class="showcase-content-skladiste">
+        <section id="tabs" class="text-primary">
+          <div class="ui top attached tabular menu">
+            <a class="item active" data-tab="first">Skladište</a>
+          </div>
+          <div class="ui bottom attached tab segment active" data-tab="first" id="skladisteTabContent">
+            
+            <div class="flex-container">
+              <div class="home-header">
+                <h2 class="l-heading">Da bi pristupili skladištu, morate se prijaviti.</h2>
+              </div>
+              <a href="./sign.html" class="btn btn-primary btn-lg">Prijava</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>';
+  }
+  ?>  
+  <!-- Tabs -->
     <!-- Footer -->
-  <footer id='footer' class='bg-light text-center'>
+  <footer id="footer" class="bg-light text-center">
     <p>Copyright &copy; 2020, ASXCRO. All Rights Reserved.</p>
   </footer>
 
 
 
   <!-- jQuery -->
-  <script src='./bundle/jQuery/jquery-3.5.1.min.js'></script>
-  <script src='./bundle/jQuery/jquery.initialize.min.js'></script>
+  <script src="./bundle/jQuery/jquery-3.5.1.min.js"></script>
+  <script src="./bundle/jQuery/jquery.initialize.min.js"></script>
+
+
+  <!-- AngularJS -->
+  <script src="./bundle/angularJS/angular.min.js"></script>
 
   <!-- DataTables PlugIn -->
-  <script src='./bundle/dataTables/DataTables-1.10.21/js/jquery.dataTables.min.js'></script>
-  <script src='./bundle/dataTables/DataTables-1.10.21/js/dataTables.semanticui.min.js'></script>
+  <script src="./bundle/dataTables/DataTables-1.10.21/js/jquery.dataTables.min.js"></script>
+  <script src="./bundle/dataTables/DataTables-1.10.21/js/dataTables.semanticui.min.js"></script>
 
   <!-- Semantic UIJS -->
-  <script src='./bundle/semanticUI/dist/semantic.min.js'></script>
+  <script src="./bundle/semanticUI/dist/semantic.min.js"></script>
 
   <!-- Local JS  -->
-  <script src='./js/skladiste.js'></script>
+  <script src="./js/skladiste.js"></script>
 </body>
 
 </html>
