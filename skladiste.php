@@ -123,7 +123,7 @@ session_start();
           <div class='ui bottom attached tab segment' data-tab='third' id='dokumentiTabContent'>
             <div class='header'>
               <h2 class='l-heading'>Pregled dokumenata</h2>
-              <div class='plus-icon' onclick='window.location.pathname = '/dodajDokument.html''><i class='fas fa-plus-circle fa-5x'></i><span> Dodaj Dokument</span></div>
+              <div class='plus-icon' onclick=\"window.location.pathname = '/Projekt/dodajDokument.html'\"><i class='fas fa-plus-circle fa-5x'></i><span> Dodaj Dokument</span></div>
             </div>
             <div class='filter'>
               <i class='fas fa-filter fa-3x'></i>
