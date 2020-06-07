@@ -97,6 +97,16 @@ class Document
     return $aDocuments;
   }
 
+  public static function dohvatiDokumentIzBazePoID($id)
+  {
+    $sQuery = "SELECT * FROM documents where id = $id"; 
+    $oRecord = $GLOBALS['connection']->query($sQuery); 
+    while($oRow = $oRecord->fetch(PDO::FETCH_BOTH)) 
+    { 
+      return new Document($oRow['id'],$oRow['vrsta'],$oRow['datum'],$oRow['iznos']);
+    }
+  }
+
   public static function dohvatiDokumenteJSON()
   {
     $myJSON = json_encode(Document::dohvatiDokumenteIzBaze());
@@ -135,10 +145,38 @@ class Article
     return $aArticles;
   }
 
+  public static function dohvatiArtiklIzBazePoId($id)
+  {
+    $sQuery = "SELECT * FROM articles where id = $id"; 
+    $oRecord = $GLOBALS['connection']->query($sQuery); 
+    while($oRow = $oRecord->fetch(PDO::FETCH_BOTH)) 
+    { 
+      return new Article($oRow['id'],$oRow['naziv'],$oRow['grupa'],$oRow['jmj'],$oRow['cijena']);
+    }
+  }
+
   public static function dohvatiArtikleJSON()
   {
     header('Content-type:application/json');
     $json = json_encode(Article::dohvatiArtikleIzBaze());
+    if ($json === false) {
+      // Avoid echo of empty string (which is invalid JSON), and
+      // JSONify the error message instead:
+      $json = json_encode(["jsonError" => json_last_error_msg()]);
+      if ($json === false) {
+          // This should not happen, but we go all the way now:
+          $json = '{"jsonError":"unknown"}';
+      }
+      // Set HTTP response status code to: 500 - Internal Server Error
+      http_response_code(500);
+    }
+    echo $json;
+  }
+
+  public static function dohvatiArtiklPoIdJSON($id)
+  {
+    header('Content-type:application/json');
+    $json = json_encode(Article::dohvatiArtiklIzBazePoId($id));
     if ($json === false) {
       // Avoid echo of empty string (which is invalid JSON), and
       // JSONify the error message instead:
@@ -160,12 +198,15 @@ class DocumentArticle
   public $m_id;
   public $m_iddoc;
   public $m_idart;
+  public $m_amount;
 
-  public function __construct($id,$doc, $art)
+
+  public function __construct($id,$doc, $art, $amount)
   {
     $this->m_id = $id;
     $this->m_iddoc = $doc;
     $this->m_idart = $art;
+    $this->m_amount = $amount;
   }
 
   public static function dohvatiDocArtIzBaze()
@@ -175,7 +216,7 @@ class DocumentArticle
     $aDocumentArticles = [];
     while($oRow = $oRecord->fetch(PDO::FETCH_BOTH)) 
     { 
-      $oDocumentArticle =  new DocumentArticle($oRow['id'],$oRow['id_doc'],$oRow['id_art']);
+      $oDocumentArticle =  new DocumentArticle($oRow['id'],$oRow['id_doc'],$oRow['id_art'],$oRow['amount']);
       array_push($aDocumentArticles,$oDocumentArticle);
     }
     return $aDocumentArticles;

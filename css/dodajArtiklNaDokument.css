@@ -1,3 +1,4 @@
 .addArticleToDocumentTd:hover {
   cursor: pointer;
+  color: #333;
 }

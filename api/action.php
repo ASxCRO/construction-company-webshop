@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST))
 if (isset($_POST["jsonid"]))
 {
   $jsonid = $_POST['jsonid'];
+  
   switch ($jsonid) {
     case 'get_all_documents':
       Document::dohvatiDokumenteJSON();
@@ -18,6 +19,13 @@ if (isset($_POST["jsonid"]))
       break;
     case 'get_all_articles':
       Article::dohvatiArtikleJSON();
+      break;
+    case 'get_article_by_id':
+      if (isset($_POST["articleid"]))
+      {
+        $articleId = $_POST['articleid'];
+        Article::dohvatiArtiklPoIdJSON($articleId);
+      }
       break;
     case "checkUserLogin":
         User::Login($_POST['username'], $_POST['password']);

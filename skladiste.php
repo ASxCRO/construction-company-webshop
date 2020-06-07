@@ -13,6 +13,9 @@ session_start();
   <meta name="keywords" content="Gradnja, Visokogradnja, Niskogradnja, Građevinske usluge">
   <meta name="description" content="Gradite kuću? Vaš pravi izbor je VŠMTI GRADNJA d.o.o. !">
   <meta name="robots" content="all">
+
+
+<!-- BootStrap -->
   <link rel="stylesheet" href="./fonts/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="./bundle/animateCSS/animate.min.css">
   <link rel="stylesheet" type="text/css" href="./bundle/semanticUI/dist/semantic.min.css">
@@ -22,34 +25,38 @@ session_start();
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/skladiste.css">
   <link rel="stylesheet" media="screen and (max-width:768px)" href="./css/mobile.css">
+
+
   <title>VŠMTI GRADNJA | Visokogradnja, Niskogradnja, i usluge!</title>
+
+  <style>
+    .article {
+    display: flex;
+    flex-direction: row;
+    color: #333;
+    align-items: center;
+    justify-content: space-around;
+    margin: 1rem;
+    padding: 1rem 2rem;
+    border: 1px solid #333;
+}
+  </style>
 </head>
 
 <body ng-controller="skladisteController">
   
   <!-- Navbar -->
-  <nav id="navbar">
-    <div class="ui search">
-      <div class="ui icon input">
-        <input class="prompt" type="text" placeholder="Što vas zanima?">
-        <i class="search icon"></i>
-      </div>
-      <div class="results"></div>
-    </div>
 
-    <a href="skladiste.html" class="logo">
-      <img src="./img/vsmtiSkladiste.png" alt="VSMTI-GRADNJA-DOO">
-    </a>
+    <navbar-skladiste></navbar-skladiste>
 
-    <ul>
-      <li class="py-2"><a onclick="Logout()" href="./index.html"><i class="fas fa-arrow-left"></i> Odjava</a></li>
-    </ul>
-  </nav>
 
  <?php 
   if(isset($_SESSION['login'])) {
     echo "<section id='showcase'>
+
+
     <div class='showcase-content-skladiste'>
+
       <section id='tabs' class='text-primary'>
           <div class='ui top attached tabular menu'>
             <a class='item active' data-tab='first'>Skladište</a>
@@ -160,56 +167,66 @@ session_start();
 
                 </tbody>
               </table>
-            </div>
-          </div>
-      </section>
-    </div>
-  </section>";}
-  else {
-    echo '
-    <section id="showcase">
-      <div class="showcase-content-skladiste">
-        <section id="tabs" class="text-primary">
-          <div class="ui top attached tabular menu">
-            <a class="item active" data-tab="first">Skladište</a>
-          </div>
-          <div class="ui bottom attached tab segment active" data-tab="first" id="skladisteTabContent">
-            
-            <div class="flex-container">
-              <div class="home-header">
-                <h2 class="l-heading">Da bi pristupili skladištu, morate se prijaviti.</h2>
               </div>
+              </div>
+              </section>
+              </div>
+              
+              
+              </section>";}
+              else {
+                echo '
+                <section id="showcase">
+                <div class="showcase-content-skladiste">
+                <section id="tabs" class="text-primary">
+                <div class="ui top attached tabular menu">
+                <a class="item active" data-tab="first">Skladište</a>
+                </div>
+                <div class="ui bottom attached tab segment active" data-tab="first" id="skladisteTabContent">
+                
+                <div class="flex-container">
+                <div class="home-header">
+                <h2 class="l-heading">Da bi pristupili skladištu, morate se prijaviti.</h2>
+                </div>
               <a href="./sign.html" class="btn btn-primary btn-lg">Prijava</a>
             </div>
-          </div>
-        </section>
-      </div>
-    </section>';
-  }
-  ?>  
-  <!-- Tabs -->
-    <!-- Footer -->
-  <footer id="footer" class="bg-light text-center">
-    <p>Copyright &copy; 2020, ASXCRO. All Rights Reserved.</p>
-  </footer>
+            </div>
+            </section>
+            </div>
+            </section>';
+          }
+          ?>  
+
+
+<div class="ui modal">
+  <i class="close icon"></i>
+  
+</div>
+
+<!-- Tabs -->
+<!-- Footer -->
+<footer id="footer" class="bg-light text-center">
+  <p>Copyright &copy; 2020, ASXCRO. All Rights Reserved.</p>
+</footer>
 
 
 
-  <!-- jQuery -->
-  <script src="./bundle/jQuery/jquery-3.5.1.min.js"></script>
-  <script src="./bundle/jQuery/jquery.initialize.min.js"></script>
+    <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
-  <!-- AngularJS -->
-  <script src="./bundle/angularJS/angular.min.js"></script>
+<!-- AngularJS -->
+<script src="./bundle/angularJS/angular.min.js"></script>
 
-  <!-- DataTables PlugIn -->
-  <script src="./bundle/dataTables/DataTables-1.10.21/js/jquery.dataTables.min.js"></script>
-  <script src="./bundle/dataTables/DataTables-1.10.21/js/dataTables.semanticui.min.js"></script>
+<!-- DataTables PlugIn -->
+<script src="./bundle/dataTables/DataTables-1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="./bundle/dataTables/DataTables-1.10.21/js/dataTables.semanticui.min.js"></script>
 
-  <!-- Semantic UIJS -->
+<!-- Semantic UIJS -->
   <script src="./bundle/semanticUI/dist/semantic.min.js"></script>
 
+  <!-- Globals -->
+  <script src="./js/globals.js"></script>
   <!-- Local JS  -->
   <script src="./js/skladiste.js"></script>
 </body>
