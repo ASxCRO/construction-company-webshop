@@ -20,6 +20,9 @@ if (isset($_POST["jsonid"]))
     case 'get_all_articles':
       Article::dohvatiArtikleJSON();
       break;
+    case 'get_all_articles_with_state':
+      Article::dohvatiArtikleSaStanjemJSON();
+      break;
     case 'get_article_by_id':
       if (isset($_POST["articleid"]))
       {
@@ -29,6 +32,27 @@ if (isset($_POST["jsonid"]))
       break;
     case "checkUserLogin":
         User::Login($_POST['username'], $_POST['password']);
+      break;
+    case 'save_document':
+      if (isset($_POST["articles"]))
+      {
+        $articles = json_decode($_POST['articles']);
+        $type = $_POST['type'];
+        $date = $_POST['date'];
+        $amount = $_POST['amount'];
+        $articlesAmount = json_decode($_POST['articlesAmount']);
+        echo Document::SaveDocument($articles,$type,$date,$amount,$articlesAmount);
+      }
+      break;
+    case 'save_article':
+      if (isset($_POST["naziv"]))
+      {
+        $naziv = $_POST['naziv'];
+        $jmj = $_POST['jmj'];
+        $price = $_POST['price'];
+        $group = $_POST['grupa'];
+        echo Article::SaveArticle($naziv,$jmj,$price,$group);
+      }
       break;
     default:
       break;

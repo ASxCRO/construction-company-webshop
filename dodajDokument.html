@@ -27,6 +27,10 @@
   flex-wrap: wrap;
   margin:  0;
 }
+
+.text-align {
+  text-align:center;
+}
 </style>
   <link rel="stylesheet" media="screen and (max-width:768px)" href="./css/mobile.css">
   <title>VŠMTI GRADNJA | Visokogradnja, Niskogradnja, i usluge!</title>
@@ -88,7 +92,7 @@
                       </tbody>
                     </table>
                     <div class="kolicina">
-                      <button class="ui primary button" onclick="deleteArticleFromList($(this).val())" value="{{article.m_id}}">
+                      <button class="ui primary button" ng-click="deleteArticleFromList(article.m_id)">
                         Izbriši
                       </button>
                     </div>
@@ -101,14 +105,14 @@
                   </button>
                   <p class="l-heading" style="margin-left: 1rem"> {{getTotal(artikliNaDokumentuPrimke)}} HRK</p>
                 </div>
-                <a class="btn btn-primary btn-lg"><div class="plus-icon-add"><i class="fas fa-plus-circle fa-5x"></i></div></a>
+                <a class="btn btn-primary btn-lg"><div class="plus-icon-add" ng-click="modalZaSpremanjeDokumenta('0')"><i class="fas fa-plus-circle fa-5x"></i></div></a>
             </form>
             <hr>
           </div>
           <div class="ui bottom attached tab segment" data-tab="third" id="izdatnicaTabContent">
             <div class="header">
               <h2 class="l-heading">Dodaj novu izdatnicu</h2>
-              <div class="plus-icon" ng-click="dodajArtiklNaDokument('izdatnica')"><i class="fas fa-plus-circle fa-5x"></i><span> Dodaj Artikl</span></div>
+              <div class="plus-icon" id="primkaDocSave" ng-click="dodajArtiklNaDokument('izdatnica')"><i class="fas fa-plus-circle fa-5x"></i><span> Dodaj Artikl</span></div>
             </div>
 
             <hr>
@@ -136,7 +140,7 @@
                     </tbody>
                   </table>
                   <div class="kolicina">
-                    <button class="ui primary button" onclick="deleteArticleFromList($(this).val())" value="{{article.m_id}}">
+                    <button class="ui primary button" ng-click="deleteArticleFromList(article.m_id)">
                       Izbriši
                     </button>
                   </div>
@@ -149,7 +153,7 @@
                 </button>
                 <p class="l-heading" style="margin-left: 1rem"> {{getTotal(artikliNaDokumentuIzdatnice)}} HRK</p>
               </div>
-              <a class="btn btn-primary btn-lg"><div class="plus-icon-add"><i class="fas fa-plus-circle fa-5x"></i></div></a>
+              <a class="btn btn-primary btn-lg"><div class="plus-icon-add" ng-click="modalZaSpremanjeDokumenta('1')"><i class="fas fa-plus-circle fa-5x"></i></div></a>
             </form>
             <hr>
           </div>
@@ -160,17 +164,17 @@
   <div class="ui basic modal">
     <div class="ui icon header">
       <i class="archive icon"></i>
-      Jeste li sigurni da želite odustati?
+      Jeste li sigurni da želite spremiti dokument sa upisanim podatcima?
     </div>
-    <div class="content">
-      <p>Podatci će biti izbrisani ukoliko odustanete.</p>
+    <div class="content text-align">
+      <p>Nije moguće zaustaviti spremanje!</p>
     </div>
     <div class="actions">
       <div class="ui red basic cancel inverted button">
         <i class="remove icon"></i>
         Ne
       </div>
-      <div class="ui green ok inverted button">
+      <div class="ui blue ok inverted button">
         <i class="checkmark icon"></i>
         Da
       </div>

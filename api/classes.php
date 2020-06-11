@@ -107,13 +107,58 @@ class Document
     }
   }
 
+  public static function dohvatiZadnjiDokumentIzBaze()
+  {
+    $sQuery = "SELECT * FROM documents ORDER BY id DESC LIMIT 1"; 
+    $oRecord = $GLOBALS['connection']->query($sQuery); 
+    while($oRow = $oRecord->fetch(PDO::FETCH_BOTH)) 
+    { 
+      return new Document($oRow['id'],$oRow['vrsta'],$oRow['datum'],$oRow['iznos']);
+    }
+  }
+
+
   public static function dohvatiDokumenteJSON()
   {
     $myJSON = json_encode(Document::dohvatiDokumenteIzBaze());
     echo $myJSON;
   }
+
+  public static function SaveDocument($articles,$type,$date,$amount,$articlesAmount)
+  {
+    $isSuccessful = false;
+    try {
+      $realAmount  = $amount;
+      if($type == "1") {
+        $realAmount = -1 * abs($amount);
+      }
+
+      $sQuery = "INSERT INTO documents VALUES (NULL,'$type','$date','$realAmount')"; 
+      $GLOBALS['connection']->exec($sQuery);
+      $lastDocument = Document::dohvatiZadnjiDokumentIzBaze();
+      foreach ($articles as $article) {
+        $index = array_search($article, $articles); 
+        $oDocumentArticle =  new DocumentArticle("",$lastDocument->m_id,$article->m_id,$articlesAmount[$index]);
+        $realAmountArticle  = $oDocumentArticle->m_amount;
+        if($type == "1") {
+          $realAmountArticle = -1 * abs($articlesAmount[$index]);
+        }
+        $sQueryDocArt = "INSERT INTO document_articles VALUES (NULL,'$oDocumentArticle->m_iddoc','$oDocumentArticle->m_idart','$realAmountArticle')"; 
+        $GLOBALS['connection']->exec($sQueryDocArt);
+      }
+
+      $isSuccessful = true;
+    }
+    catch(PDOException $e) {
+      echo $sQuery . "<br>" . $e->getMessage();
+    }
+
+    return $isSuccessful;
+
+  }
 }
 // ************************************************************************************************************************************************************************************************************************
+
 
 class Article
 {
@@ -145,6 +190,21 @@ class Article
     return $aArticles;
   }
 
+  public static function dohvatiArtikleSaStanjemIzBaze()
+  {
+    $sQuery = "select id_art,sum(amount) as stanje  from document_articles  group by id_art";  
+    $oRecord = $GLOBALS['connection']->query($sQuery); 
+    $aArticlesWithState = [];
+    while($oRow = $oRecord->fetch(PDO::FETCH_BOTH)) 
+    { 
+      $obj = new stdClass;
+      $obj->id_art = $oRow['id_art'];
+      $obj->stanje = $oRow['stanje'];
+      array_push($aArticlesWithState,$obj);
+    }
+    return $aArticlesWithState;
+  }
+
   public static function dohvatiArtiklIzBazePoId($id)
   {
     $sQuery = "SELECT * FROM articles where id = $id"; 
@@ -159,6 +219,24 @@ class Article
   {
     header('Content-type:application/json');
     $json = json_encode(Article::dohvatiArtikleIzBaze());
+    if ($json === false) {
+      // Avoid echo of empty string (which is invalid JSON), and
+      // JSONify the error message instead:
+      $json = json_encode(["jsonError" => json_last_error_msg()]);
+      if ($json === false) {
+          // This should not happen, but we go all the way now:
+          $json = '{"jsonError":"unknown"}';
+      }
+      // Set HTTP response status code to: 500 - Internal Server Error
+      http_response_code(500);
+    }
+    echo $json;
+  }
+
+  public static function dohvatiArtikleSaStanjemJSON()
+  {
+    header('Content-type:application/json');
+    $json = json_encode(Article::dohvatiArtikleSaStanjemIzBaze());
     if ($json === false) {
       // Avoid echo of empty string (which is invalid JSON), and
       // JSONify the error message instead:
@@ -189,6 +267,22 @@ class Article
       http_response_code(500);
     }
     echo $json;
+  }
+
+  public static function SaveArticle($naziv,$jmj,$price,$group)
+  {
+    $isSuccessful = false;
+    try {
+      $sQuery = "INSERT INTO articles VALUES (NULL,'$naziv','$jmj','$price','$group')"; 
+      $GLOBALS['connection']->exec($sQuery);
+      $isSuccessful = true;
+    }
+    catch(PDOException $e) {
+      echo $sQuery . "<br>" . $e->getMessage();
+    }
+
+    return $isSuccessful;
+
   }
 }
 
@@ -227,6 +321,8 @@ class DocumentArticle
     $myJSON = json_encode(DocumentArticle::dohvatiDocArtIzBaze());
     echo $myJSON;
   }
+
+
 }
 // ************************************************************************************************************************************************************************************************************************
 

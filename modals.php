@@ -6,12 +6,10 @@ include_once($path);
 
 $sModalID = $_GET['modal_id'];
 $nDataID = $_GET['data_id'];
-echo $sModalID;
 switch($sModalID)
 {
 	case 'showDocumentArticles':
-		echo
-			'<div class="header">
+		echo '<div class="header">
                 Artikli odabranog dokumenta
             </div>
             <div class="content">';
@@ -22,13 +20,14 @@ switch($sModalID)
             $doc = Document::dohvatiDokumentIzBazePoID($nDataID);
             if($doc->m_id == $docart->m_iddoc) {
                 $art = Article::dohvatiArtiklIzBazePoId($docart->m_idart);
+
                 echo  '<div class="article">
                 <p>'.$art->m_naziv.'</p>
                 <table>
                   <thead>
                     <tr>
                       <th>Količina</th>
-                      <th>Cijena</th>
+                      <th>Ukupan iznos</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -39,7 +38,7 @@ switch($sModalID)
                             <input type="number" placeholder="Kolicina" id="amount" value="'.$docart->m_amount.'" disabled>
                           </div>
                         </td>
-                        <td>'.$art->m_cijena.' HRK</td>
+                        <td>'.($docart->m_amount * $art->m_cijena). ' HRK</td>
                       </tr>
                   </tbody>
                 </table>
@@ -49,7 +48,7 @@ switch($sModalID)
 
         echo '    </div>
             <div class="actions">
-                <div class="ui black deny button">
+                <div class="ui black deny button" style="background: #428BCA">
                 Povratak
                 </div>
             </div>';

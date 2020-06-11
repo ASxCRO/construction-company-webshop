@@ -116,8 +116,9 @@ session_start();
                           <th>Oznaka</th>
                           <th>Naziv</th>
                           <th>Grupa</th>
-                          <th>Cijena</th>
-                          <th>Količina</th>
+                          <th>JMJ</th>
+                          <th>Cijena HRK</th>
+                          <th>Količina na skladištu</th>
                           <th>Ukupno HRK</th>
                         </tr>
                       </thead>
@@ -174,28 +175,28 @@ session_start();
               
               
               </section>";}
-              else {
-                echo '
-                <section id="showcase">
-                <div class="showcase-content-skladiste">
-                <section id="tabs" class="text-primary">
-                <div class="ui top attached tabular menu">
-                <a class="item active" data-tab="first">Skladište</a>
-                </div>
-                <div class="ui bottom attached tab segment active" data-tab="first" id="skladisteTabContent">
-                
-                <div class="flex-container">
-                <div class="home-header">
-                <h2 class="l-heading">Da bi pristupili skladištu, morate se prijaviti.</h2>
-                </div>
-              <a href="./sign.html" class="btn btn-primary btn-lg">Prijava</a>
-            </div>
-            </div>
-            </section>
-            </div>
-            </section>';
-          }
-          ?>  
+  else {
+    echo '
+          <section id="showcase">
+          <div class="showcase-content-skladiste">
+          <section id="tabs" class="text-primary">
+          <div class="ui top attached tabular menu">
+          <a class="item active" data-tab="first">Skladište</a>
+          </div>
+          <div class="ui bottom attached tab segment active" data-tab="first" id="skladisteTabContent">
+          
+          <div class="flex-container">
+          <div class="home-header">
+          <h2 class="l-heading">Da bi pristupili skladištu, morate se prijaviti.</h2>
+          </div>
+        <a href="./sign.html" class="btn btn-primary btn-lg">Prijava</a>
+      </div>
+      </div>
+      </section>
+      </div>
+      </section>';
+  }
+  ?>  
 
 
 <div class="ui modal">

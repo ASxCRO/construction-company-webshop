@@ -1,7 +1,14 @@
 $('.menu .item').tab();
 
+function twoDigits(d) {
+  if(0 <= d && d < 10) return "0" + d.toString();
+  if(-10 < d && d < 0) return "-0" + (-1*d).toString();
+  return d.toString();
+}
 
-
+Date.prototype.toMysqlFormat = function() {
+  return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth()) + "-" + twoDigits(this.getUTCDate()) + " " + twoDigits(this.getUTCHours()+2) + ":" + twoDigits(this.getUTCMinutes()) + ":" + twoDigits(this.getUTCSeconds());
+};
 
 function RemoveActiveTab()
 {
@@ -154,18 +161,36 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
 					jsonid: "get_all_articles"
 				})
 			}).then(function successCallback(response) {
-          $scope.aStanje = response.data;
-          $scope.aStanje.forEach(element => {
-            $('#stanjeTablica').dataTable().fnAddData( [
-              element.m_id,
-              element.m_naziv,
-              element.m_grupa,
-              element.m_cijena,
-              "",
-              "" ] );
-          
-          });
+        $scope.aStanje = response.data;
+        $http({
+          method: 'POST',
+          url: $scope.baseUrl + "/Projekt/api/action.php",
+          data: JSON.stringify({				
+            jsonid: "get_all_articles_with_state"
+          })
+        }).then(function successCallback(response) {
+            $ArtikliSaTrenutnimStanjem = response.data;
 
+            for (let i = 0; i < $scope.aStanje.length; i++) {
+              var artikl = $scope.aStanje[i];
+              for (let j = 0; j < $ArtikliSaTrenutnimStanjem.length; j++) {
+                var artiklSaStanjem = $ArtikliSaTrenutnimStanjem[j];
+                if(artikl.m_id == artiklSaStanjem.id_art)
+                {
+                  $('#stanjeTablica').dataTable().fnAddData( [
+                    artikl.m_id,
+                    artikl.m_naziv,
+                    artikl.m_grupa,
+                    artikl.m_jmj,
+                    artikl.m_cijena,
+                    artiklSaStanjem.stanje,
+                    artiklSaStanjem.stanje * artikl.m_cijena] );
+                }
+              }
+            }
+          }, function errorCallback(response) {
+            console.log("Greska");
+          });
 				}, function errorCallback(response) {
 					console.log("Greska");
 				});
@@ -178,7 +203,7 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
 					jsonid: "get_all_documents"
 				})
 			}).then(function successCallback(response) {
-
+        console.log(response.data);
           $scope.aDocuments = response.data;
           $scope.aDocuments.forEach(element => {
             var vrstaDokumenta = function() { if(element.m_vrsta == 0){return "Primka"}else{return "Izdatnica"}};
@@ -206,36 +231,25 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
 			}).then(function successCallback(response) {
           $scope.aArticles = response.data;
           var poljeArtikala = [];
-          if(JSON.parse(localStorage.getItem("artikliNaDokumentu")).length == 0)  {
+          if(JSON.parse(localStorage.getItem("artikliNaDokumentu")).length == 0 || JSON.parse(localStorage.getItem("artikliNaDokumentu")) == null)  {
     
           } else {
             poljeArtikala =  JSON.parse(localStorage.getItem("artikliNaDokumentu"));
     
           }
 
-          console.log(poljeArtikala);
-          console.log($scope.aArticles);
 
-          $scope.aArticles.forEach(artikl => {
-            poljeArtikala.forEach(article => {
-              if (article.m_id == artikl.m_id) {
-                console.log('delete article from  scope aarticles')
-                var index = $scope.aArticles.indexOf(artikl);
-                console.log(index);
-                if (index !== -1) {
-                  console.log('sve jebeno prolazi');
-                  if(index == 0) {
-                    $scope.aArticles.shift();
-                  } else {
-
-                    $scope.aArticles.splice(index, 1);
-                  }
+          for (var i = 0; i < $scope.aArticles.length; i++) {
+            for (var j = 0; j < poljeArtikala.length; j++) {
+              if ($scope.aArticles[i].m_id == poljeArtikala[j].m_id) {
+                var index = $scope.aArticles.indexOf($scope.aArticles[i]);
+                if (index != -1) {
+                  $scope.aArticles.splice(index, 1);
                 }
               }
-            });
-          });
+            }
+          }
 
-          console.log($scope.aArticles);
 
 
           $scope.aArticles.forEach(article => {
@@ -266,7 +280,7 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
           total += (artikl.m_cijena * $scope.kolicina[i]);
       }
       return total || 0;
-  }
+    }
 
     $scope.artikliNaDokumentu = [];
     $scope.artikliNaDokumentuPrimke = [];
@@ -295,7 +309,7 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
           break;
       }
       console.log($scope.artikliNaDokumentu);
-    }
+    };
 
 
     $scope.dodajArtiklNaDokument = function(tipDokumenta) {
@@ -309,7 +323,7 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
         localStorage.setItem("artikliNaDokumentu", JSON.stringify($scope.artikliNaDokumentu));
       }
       window.location.pathname = '/Projekt/dodajArtiklNaDokument.html';
-    }
+    };
     
     $scope.addArticleToDocument = function (articleId) 
     {
@@ -331,7 +345,7 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
       }, 100);
 
 
-    }
+    };
     
     $scope.getArticleById = function (articleId)
     {
@@ -348,37 +362,130 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
         console.log("Greska");
       });
 
-        
-    }
-    
-    
+    };
 
-});
+    $scope.deleteArticleFromList = function (id) {
+      var poljeArtikala = [];
+      if(JSON.parse(localStorage.getItem("artikliNaDokumentu")).length == 0)  {
+
+      } else {
+        poljeArtikala =  JSON.parse(localStorage.getItem("artikliNaDokumentu"));
+
+      }
+      for (let j = 0; j < poljeArtikala.length; j++) {
+        let article = poljeArtikala[j];
+        console.log(poljeArtikala);
+        console.log(article.m_id+" "+id);
+        if(article.m_id == id)
+        {
+          console.log("true");
+          var index = poljeArtikala.indexOf(article);
+          poljeArtikala.splice(index,1);
+          localStorage.setItem("artikliNaDokumentu", JSON.stringify(poljeArtikala));
+          $scope.aArticles = JSON.parse(localStorage.getItem("artikliNaDokumentu"));
+           location.reload();
+        }
+      }
+    };
+
+    $scope.saveDocumentWithArticles = function (tipDokumenta)
+    {
+      var poljeArtikala = [];
+      tipDokumenta == "0" ? poljeArtikala = $scope.artikliNaDokumentuPrimke : poljeArtikala = $scope.artikliNaDokumentuIzdatnice;
+      
+      $http({
+        method: 'POST',
+        url: $scope.baseUrl + "/Projekt/api/action.php",
+        data: JSON.stringify({				
+          jsonid: "save_document",
+          articles: JSON.stringify(poljeArtikala),
+          type: tipDokumenta,
+          date:  new Date().toMysqlFormat(),
+          amount: $scope.getTotal(poljeArtikala),
+          articlesAmount: JSON.stringify($scope.kolicina) 
+        })
+      }).then(function successCallback(response) {
+          alert("Saving to db went well? - " + response.data);
+          $scope.aArticles.length = 0;
+          localStorage.setItem("artikliNaDokumentu", "[]");
+          localStorage.removeItem("tipDokumenta");
+          window.location.pathname="/Projekt/skladiste.php";
+      }, function errorCallback(response) {
+        console.log("Greska");
+      });
+    };
+
+    $scope.modalZaSpremanjeDokumenta = function(td) {
+      $('.ui.modal')
+      .modal({
+        closable  : false,
+        onDeny    : function(){
+          $(this).modal('hide');
+          return false;
+        },
+        onApprove : function() {
+          if(td == "0") {
+            $scope.saveDocumentWithArticles('0');
+          } else if (td == "1") {
+            $scope.saveDocumentWithArticles('1');
+          }
+        }
+      })
+      .modal('show');
+    };
+
+    $scope.SaveArticle = function ($naziv,$jmj,$cijena,$grupa)
+    {
+      $http({
+        method: 'POST',
+        url: $scope.baseUrl + "/Projekt/api/action.php",
+        data: JSON.stringify({				
+          jsonid: "save_article",
+          naziv: $naziv,
+          jmj:  $jmj,
+          price: $cijena,
+          grupa: $grupa
+        })
+      }).then(function successCallback(response) {
+          alert("Saving article to db went well? - " + response.data);
+          window.location.pathname="/Projekt/skladiste.php";
+      }, function errorCallback(response) {
+        console.log("Greska");
+      });
+    };
+
+    $scope.modalZaSpremanjeArtikala = function() {
+      console.log($scope.nazivNovogArtikla+" "+$scope.dataJmj.singleSelectJmj+" "+$scope.cijenaNovogArtikla+" "+$scope.dataGroup.singleSelectGroup);
+      $('.ui.modal')
+      .modal({
+        closable  : false,
+        onDeny    : function(){
+          $(this).modal('hide');
+          return false;
+        },
+        onApprove : function() {
+            
+            $scope.SaveArticle($scope.nazivNovogArtikla,$scope.dataJmj.singleSelectJmj,$scope.cijenaNovogArtikla, $scope.dataGroup.singleSelectGroup);
+        }
+      })
+      .modal('show');
+    };
+
+    $scope.nazivNovogArtikla = "";
+    $scope.cijenaNovogArtikla = "";
+  
+    $scope.dataGroup = {
+      singleSelectGroup: null,
+      option1: 'VG'
+    };
+  
+    $scope.dataJmj = {
+      singleSelectJmj: null,
+      option1: 'cm'
+    };
+  
+  });
 
 
-  // $('#izdatnicaTabHeader, #primkaTabHeader').click(function(event) {
-  //   $('.ui.modal')
-  //   .modal({
-  //     closable  : false,
-  //     onDeny    : function(){
-  //       $(this).modal('hide');
-  //       if($('.tab.segment.active').id == "primkaTabContent") {
-  //         RedirectToNewIzdatnica();
-  //       } else if ($('.tab.segment.active').id == "izdatnicaTabContent") {
-  //         RedirectToNewPrimka()
-  //       }
-  //       return false;
-  //     },
-  //     onApprove : function() {
-  //       localStorage.removeItem("artikliNaDokumentu");
-  //       localStorage.removeItem("tipDokumenta");
-  //       if($('.tab.segment.active').id == "primkaTabContent") {
-  //         RedirectToNewPrimka();
-  //       } else if ($('.tab.segment.active').id == "izdatnicaTabContent") {
-  //         RedirectToNewIzdatnica()
-  //       }
-  //     }
-  //   })
-  //   .modal('show')
-  // ;
-  // });
+
+
