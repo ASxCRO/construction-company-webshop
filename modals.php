@@ -35,10 +35,10 @@ switch($sModalID)
                         <td>
                           <div class="ui right labeled input">
                             <label for="amount" class="ui label">'.$art->m_jmj.'</label>
-                            <input type="number" placeholder="Kolicina" id="amount" value="'.$docart->m_amount.'" disabled>
+                            <input type="number" placeholder="Kolicina" id="amount" value="'.abs($docart->m_amount).'" disabled>
                           </div>
                         </td>
-                        <td>'.($docart->m_amount * $art->m_cijena). ' HRK</td>
+                        <td>'.abs($docart->m_amount * $art->m_cijena). ' HRK</td>
                       </tr>
                   </tbody>
                 </table>

@@ -83,32 +83,144 @@ var aArticlesOnDocument = [];
 
 
 
-
 $.extend( true, $.fn.dataTable.defaults, {
-  "ordering": false,
+  "ordering": true,
       "info":     false,
-      "filter": false,
-      "search": false,
+      "filter": true,
+      "search": true,
       "lengthChange": true,
-      order: [[ 2, "desc" ]],
-      stateSave: true,
+      order: [[ 0, "asc" ]],
+      stateSave: false,
       "language": {
         "decimal": ".",
         "thousands": ",",
         "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Croatian.json"
       },
-      "dom": '<"top"i>t<"bottom"flp><"clear">',
+      "dom": '<"top"i>t<"bottom"lp><"clear">',
       "lengthMenu": [[2, 4, 6,8], [2, 4, 6,8]],
     "pageLength":8,
 
       responsive: true
 } );
-$(document).ready(function() {
-   $('#stanjeTablica').DataTable().columns.adjust();
-   $('#dokumentiTablica').DataTable().columns.adjust();
-   $('#artikliTablica').DataTable().columns.adjust();
-   aArticlesOnDocument = localStorage.getItem("artikliNaDokumentu");
 
+
+$(document).ready(function() {
+
+    $.datepicker.setDefaults( $.datepicker.regional[ "hr" ] );
+    $( function() {
+      $( "#datumStvaranja" ).datepicker(
+      {   
+        onSelect: function (date) {
+          dokumenti.columns(2).search( this.value ).draw();
+
+    }});
+
+  $('.money').mask("000,000,000.00", {reverse: true});
+
+  } );
+
+
+ var stanje = $('#stanjeTablica').DataTable().columns.adjust();
+  var dokumenti = $('#dokumentiTablica').DataTable().columns.adjust();
+  $('#artikliTablica').DataTable().columns.adjust();
+  aArticlesOnDocument = localStorage.getItem("artikliNaDokumentu");
+
+  $.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var min = parseInt( $('#cijenaOd').val(), 10 );
+        var max = parseInt( $('#cijenaDo').val(), 10 );
+  
+        var cijena = parseFloat( data[4] );
+
+  
+        if ( ( isNaN( min ) && isNaN( max ) ) ||
+             ( isNaN( min ) && cijena <= max ) ||
+             ( min <= cijena   && isNaN( max ) ) ||
+             ( min <= cijena   && cijena <= max ))
+        {
+            return true;
+        }
+        return false;
+    }
+  );
+
+              $.fn.dataTable.ext.search.push(
+                function( settings, data, dataIndex ) {
+                    var min = parseInt( $('#artikNaStanjuHidden').val(), 10 );
+                    var max = parseInt( 1000000, 10 );
+                    var naStanju = parseFloat( data[5] ) || 0; // use data for the age column
+            
+                    if ( ( isNaN( min ) && isNaN( max ) ) ||
+                         ( isNaN( min ) && naStanju <= max ) ||
+                         ( min != 0   && isNaN( max ) ) ||
+                         ( min != naStanju   && naStanju <= max ) )
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            );
+
+
+
+  
+  $('#cijenaOd,#cijenaDo').keyup( function() {
+    stanje.draw();
+ });
+  $('#oznakaArtikla').keyup( function() {
+   stanje.columns(0).search( this.value ).draw();
+ });
+  $('#nazivArtikla').keyup( function() {
+   stanje.columns(1).search( this.value ).draw();
+ });
+  $('#grupaProizvoda').change( function() {
+   stanje.columns(2).search( this.value ).draw();
+ });
+
+$.fn.dataTable.ext.search.push(
+  function( settings, data, dataIndex ) {
+    var min = parseInt( $('#kolicinaOd').val(), 10 );
+    var max = parseInt(  $('#kolicinaDo').val(), 10 );
+
+      var kolicina = parseFloat( data[4] );
+
+
+      if ( ( isNaN( min ) && isNaN( max ) ) ||
+           ( isNaN( min ) && kolicina <= max ) ||
+           ( min <= kolicina   && isNaN( max ) ) ||
+           ( min <= kolicina   && kolicina <= max ))
+      {
+          return true;
+      }
+      return false;
+  }
+);
+
+ $('#oznakaDokumenta').keyup( function() {
+  dokumenti.columns(0).search( this.value ).draw();
+});
+
+$('#kolicinaOd,#kolicinaDo').keyup( function() {
+  dokumenti.draw();
+});
+
+ $('#vrstaDokumenta').change( function() {
+  dokumenti.columns(1).search( this.value ).draw();
+});
+
+        $('#artikNaStanju').change(function() {
+          if(this.checked) {
+            $('#artikNaStanjuHidden').val("1");
+            $(this).attr('checked', true);
+            stanje.draw();
+          } else
+          {
+            $('#artikNaStanjuHidden').val("0");
+            $(this).removeAttr('checked');
+            stanje.draw();
+
+          }
+        });
 });
 
 
@@ -184,7 +296,7 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
                     artikl.m_jmj,
                     artikl.m_cijena,
                     artiklSaStanjem.stanje,
-                    artiklSaStanjem.stanje * artikl.m_cijena] );
+                    $scope.convertToMoney(artiklSaStanjem.stanje * artikl.m_cijena)] );
                 }
               }
             }
@@ -206,17 +318,45 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
         console.log(response.data);
           $scope.aDocuments = response.data;
           $scope.aDocuments.forEach(element => {
+            let btnhtml = "    <div class='kolicina'> <button class='ui primary button' ng-click='stornirajDokument("+element.m_id+")'>   Storniraj  </button>         </div>";
+            let temp = $compile(btnhtml)($scope);
             var vrstaDokumenta = function() { if(element.m_vrsta == 0){return "Primka"}else{return "Izdatnica"}};
             $('#dokumentiTablica').dataTable().fnAddData( [
               element.m_id,
               vrstaDokumenta, 
-              element.m_datum,
+              element.m_datum.substr(0,10).split('-').reverse().join('.'),
               "<i class='fab fa-wpexplorer fa-2x clickBait' aria-hidden='true' onclick=\"GetModal(\'http://localhost/Projekt/modals.php?modal_id=showDocumentArticles&data_id="+element.m_id+"\');\"></i>",
-              element.m_iznos] );
+              $scope.convertToMoney(Math.abs(element.m_iznos)),
+              "<span class='stornirajDokument' id='"+element.m_id+"'></span>"] 
+            );
+            let selector = '#' + element.m_id;
+            angular.element($(selector)).append(temp);
+
           });
 				}, function errorCallback(response) {
 					console.log("Greska");
 				});
+    };
+
+    $scope.stornirajDokument = function (iddoc)
+    {
+      $http({
+        method: 'POST',
+        url: $scope.baseUrl + "/Projekt/api/action.php",
+        data: JSON.stringify({				
+          jsonid: "storniraj_dokument",
+          id: iddoc,
+        })
+      }).then(function successCallback(response) {
+          if(response.data == 1) {
+            window.location.pathname="/Projekt/skladiste.php";
+          }
+          else {
+            alert("Greška. Nešto je pošlo po zlu pri uklanjanju dokumenta iz baze!")
+          }
+      }, function errorCallback(response) {
+        console.log("Greska");
+      });
     };
 
     
@@ -231,11 +371,14 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
 			}).then(function successCallback(response) {
           $scope.aArticles = response.data;
           var poljeArtikala = [];
-          if(JSON.parse(localStorage.getItem("artikliNaDokumentu")).length == 0 || JSON.parse(localStorage.getItem("artikliNaDokumentu")) == null)  {
-    
-          } else {
-            poljeArtikala =  JSON.parse(localStorage.getItem("artikliNaDokumentu"));
-    
+          if(JSON.parse(localStorage.getItem("artikliNaDokumentu")) != undefined)
+          {
+            if(JSON.parse(localStorage.getItem("artikliNaDokumentu")).length == 0 || JSON.parse(localStorage.getItem("artikliNaDokumentu")) == null)  {
+      
+            } else {
+              poljeArtikala =  JSON.parse(localStorage.getItem("artikliNaDokumentu"));
+      
+            }
           }
 
 
@@ -253,8 +396,9 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
 
 
           $scope.aArticles.forEach(article => {
-            var btnhtml = "<i class='fas fa-plus-circle fa-2x addArticleToDocumentTd' ng-click='addArticleToDocument("+article.m_id+")'></i>";
-            var temp = $compile(btnhtml)($scope);
+            let btnhtml = "<i class='fas fa-plus-circle fa-2x addArticleToDocumentTd' ng-click='addArticleToDocument("+article.m_id+")'></i>";
+            let temp = $compile(btnhtml)($scope);
+
             $('#artikliTablica').dataTable().fnAddData( [
               article.m_id,
               article.m_naziv,
@@ -265,9 +409,7 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
             ]);
             angular.element($('#artikliTablica tr:last-child td:last-child')).append(temp);
 
-            
           });
-
 				}, function errorCallback(response) {
 					console.log("Greska");
 				});
@@ -279,7 +421,7 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
           var artikl = artikli[i];
           total += (artikl.m_cijena * $scope.kolicina[i]);
       }
-      return total || 0;
+      return parseFloat(total).toFixed(2) || parseFloat(0).toFixed(2);
     }
 
     $scope.artikliNaDokumentu = [];
@@ -405,17 +547,33 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
           articlesAmount: JSON.stringify($scope.kolicina) 
         })
       }).then(function successCallback(response) {
-          alert("Saving to db went well? - " + response.data);
-          $scope.aArticles.length = 0;
-          localStorage.setItem("artikliNaDokumentu", "[]");
-          localStorage.removeItem("tipDokumenta");
-          window.location.pathname="/Projekt/skladiste.php";
+          if(response.data == 1) {
+            $scope.aArticles.length = 0;
+            localStorage.setItem("artikliNaDokumentu", "[]");
+            localStorage.removeItem("tipDokumenta");
+            window.location.pathname="/Projekt/skladiste.php";
+          }
+          else {
+            alert(response.data)
+          }
+
       }, function errorCallback(response) {
         console.log("Greska");
       });
     };
 
     $scope.modalZaSpremanjeDokumenta = function(td) {
+      var poljeArtikala = [];
+      td == "0" ? poljeArtikala = $scope.artikliNaDokumentuPrimke : poljeArtikala = $scope.artikliNaDokumentuIzdatnice;
+      
+      var isSuccessful = ($scope.kolicina.length == poljeArtikala.length) && ($scope.kolicina.length > 0);
+      if(isSuccessful) {
+        $scope.kolicina.forEach(element => {
+          if(parseFloat(element).toFixed(2) < 0.01) {
+            isSuccessful = false;
+          }
+        });
+      }
       $('.ui.modal')
       .modal({
         closable  : false,
@@ -424,14 +582,28 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
           return false;
         },
         onApprove : function() {
-          if(td == "0") {
-            $scope.saveDocumentWithArticles('0');
-          } else if (td == "1") {
-            $scope.saveDocumentWithArticles('1');
+          if(isSuccessful) {
+            if(td == "0") {
+              $scope.saveDocumentWithArticles('0');
+            } else if (td == "1") {
+              $scope.saveDocumentWithArticles('1');
+            }
+          }
+          else {
+            $(this).modal('hide');
+            alert("Količina artikala nije valjana. Mora biti veća od nule.")
           }
         }
       })
       .modal('show');
+    };
+
+    $scope.convertToMoney = function(number) {
+      if (isNaN(number)){
+        return 0.00;
+      } else {
+        return parseFloat(number).toFixed(2);
+      }
     };
 
     $scope.SaveArticle = function ($naziv,$jmj,$cijena,$grupa)
@@ -447,15 +619,18 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
           grupa: $grupa
         })
       }).then(function successCallback(response) {
-          alert("Saving article to db went well? - " + response.data);
-          window.location.pathname="/Projekt/skladiste.php";
+          if(response.data == 1) {
+            window.location.pathname="/Projekt/skladiste.php";
+          }
+          else {
+            alert("Greška. Nešto je pošlo po zlu pri spremanju artikla u bazu!")
+          }
       }, function errorCallback(response) {
         console.log("Greska");
       });
     };
 
     $scope.modalZaSpremanjeArtikala = function() {
-      console.log($scope.nazivNovogArtikla+" "+$scope.dataJmj.singleSelectJmj+" "+$scope.cijenaNovogArtikla+" "+$scope.dataGroup.singleSelectGroup);
       $('.ui.modal')
       .modal({
         closable  : false,
@@ -464,27 +639,77 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
           return false;
         },
         onApprove : function() {
-            
-            $scope.SaveArticle($scope.nazivNovogArtikla,$scope.dataJmj.singleSelectJmj,$scope.cijenaNovogArtikla, $scope.dataGroup.singleSelectGroup);
+            $scope.SaveArticle($scope.nazivNovogArtikla,$scope.dataJmj.singleSelectJmj,$('#cijenaNovogArtikla').val().split(',').join(''), $scope.dataGroup.singleSelectGroup);
         }
       })
       .modal('show');
     };
 
+    $scope.dataGroup = {
+      singleSelectGroup: 'VG',
+      groups: [{
+          id: 'VG',
+          name: 'Visokogradnja'
+      },{
+          id:'NG',
+          name: 'Niskogradnja'
+      },{
+          id:'UU',
+          name: 'Unutarnje uređenje'
+      },{
+        id:'VPU',
+        name: 'Vanjsko prostorno uređenje'
+      }]
+    }
+
+    $scope.dataJmj = {
+      singleSelectJmj: 'kom',
+      groups: [{
+          id: 'kom/m2',
+          name: 'kom/m2'
+      },{
+          id:'kom',
+          name: 'komad'
+      },{
+          id:'cm',
+          name: 'centimetar'
+      },{
+        id:'m',
+        name: 'metar'
+      },{
+        id:'kg',
+        name: 'kilogram'
+      },{
+        id:'m2',
+        name: 'kvadrat'
+      },{
+        id:'m3',
+        name: 'kubik'
+      },{
+        id:'kg/m3',
+        name: 'kg/m3'
+      },{
+        id:'l',
+        name: 'litra'
+      }]
+    }
+
     $scope.nazivNovogArtikla = "";
     $scope.cijenaNovogArtikla = "";
   
-    $scope.dataGroup = {
-      singleSelectGroup: null,
-      option1: 'VG'
-    };
+    // $scope.dataGroup = {
+    //   singleSelectGroup: ["Visokogradnja","Niskogradnja","Unutarnje uređenje","Vanjsko prostorno uređenje"],
+    //   option1: 'Visokogradnja'
+    // };
   
-    $scope.dataJmj = {
-      singleSelectJmj: null,
-      option1: 'cm'
-    };
+    // $scope.dataJmj = {
+    //   singleSelectJmj: null,
+    //   option1: 'cm'
+    // };
   
   });
+
+
 
 
 

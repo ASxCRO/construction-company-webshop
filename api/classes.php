@@ -117,6 +117,28 @@ class Document
     }
   }
 
+  public static function stornirajDokumentoPoId($id)
+  {
+    $isSuccessful = false;
+    try {
+      $sQuery = "DELETE FROM documents WHERE id = $id"; 
+      $oRecord = $GLOBALS['connection']->query($sQuery); 
+      $GLOBALS['connection']->exec($sQuery);
+  
+      $sQuery = "DELETE FROM document_articles WHERE id_doc = $id"; 
+      $oRecord = $GLOBALS['connection']->query($sQuery); 
+      $GLOBALS['connection']->exec($sQuery);
+      $isSuccessful = true;
+    } catch (\Throwable $th) {
+     echo "error: ".$th->getCode();
+    }
+
+    return $isSuccessful;
+
+
+  }
+
+
 
   public static function dohvatiDokumenteJSON()
   {
@@ -133,18 +155,42 @@ class Document
         $realAmount = -1 * abs($amount);
       }
 
+    $artikliSaStanjem = Article::dohvatiArtikleSaStanjemIzBaze();
+
+
       $sQuery = "INSERT INTO documents VALUES (NULL,'$type','$date','$realAmount')"; 
       $GLOBALS['connection']->exec($sQuery);
       $lastDocument = Document::dohvatiZadnjiDokumentIzBaze();
       foreach ($articles as $article) {
         $index = array_search($article, $articles); 
         $oDocumentArticle =  new DocumentArticle("",$lastDocument->m_id,$article->m_id,$articlesAmount[$index]);
+
         $realAmountArticle  = $oDocumentArticle->m_amount;
         if($type == "1") {
           $realAmountArticle = -1 * abs($articlesAmount[$index]);
+
+          for ($i=0; $i < count($artikliSaStanjem); $i++) { 
+            if($artikliSaStanjem[$i]->id_art == $article->m_id) {
+              $veciOdNule = ($artikliSaStanjem[$i]->stanje + $realAmountArticle) >= 0;
+              if($veciOdNule) {
+                $sQueryDocArt = "INSERT INTO document_articles VALUES (NULL,'$oDocumentArticle->m_iddoc','$oDocumentArticle->m_idart','$realAmountArticle')"; 
+                $GLOBALS['connection']->exec($sQueryDocArt);
+              } else {
+                Document::stornirajDokumentoPoId($lastDocument->m_id);
+                
+                $nazivArtikla = $article->m_naziv;
+                $stanjeArtikla = $artikliSaStanjem[$i]->stanje;
+                return "Artikla $nazivArtikla nema dovoljno na skladištu.
+                       Trenutna količina artikla na skladištu je: $stanjeArtikla";
+              }
+
+            }
+          }
+        } else if ($type == "0") {
+          $sQueryDocArt = "INSERT INTO document_articles VALUES (NULL,'$oDocumentArticle->m_iddoc','$oDocumentArticle->m_idart','$realAmountArticle')"; 
+          $GLOBALS['connection']->exec($sQueryDocArt);
         }
-        $sQueryDocArt = "INSERT INTO document_articles VALUES (NULL,'$oDocumentArticle->m_iddoc','$oDocumentArticle->m_idart','$realAmountArticle')"; 
-        $GLOBALS['connection']->exec($sQueryDocArt);
+
       }
 
       $isSuccessful = true;
@@ -220,14 +266,10 @@ class Article
     header('Content-type:application/json');
     $json = json_encode(Article::dohvatiArtikleIzBaze());
     if ($json === false) {
-      // Avoid echo of empty string (which is invalid JSON), and
-      // JSONify the error message instead:
       $json = json_encode(["jsonError" => json_last_error_msg()]);
       if ($json === false) {
-          // This should not happen, but we go all the way now:
           $json = '{"jsonError":"unknown"}';
       }
-      // Set HTTP response status code to: 500 - Internal Server Error
       http_response_code(500);
     }
     echo $json;
@@ -238,14 +280,10 @@ class Article
     header('Content-type:application/json');
     $json = json_encode(Article::dohvatiArtikleSaStanjemIzBaze());
     if ($json === false) {
-      // Avoid echo of empty string (which is invalid JSON), and
-      // JSONify the error message instead:
       $json = json_encode(["jsonError" => json_last_error_msg()]);
       if ($json === false) {
-          // This should not happen, but we go all the way now:
           $json = '{"jsonError":"unknown"}';
       }
-      // Set HTTP response status code to: 500 - Internal Server Error
       http_response_code(500);
     }
     echo $json;
@@ -256,14 +294,10 @@ class Article
     header('Content-type:application/json');
     $json = json_encode(Article::dohvatiArtiklIzBazePoId($id));
     if ($json === false) {
-      // Avoid echo of empty string (which is invalid JSON), and
-      // JSONify the error message instead:
       $json = json_encode(["jsonError" => json_last_error_msg()]);
       if ($json === false) {
-          // This should not happen, but we go all the way now:
           $json = '{"jsonError":"unknown"}';
       }
-      // Set HTTP response status code to: 500 - Internal Server Error
       http_response_code(500);
     }
     echo $json;

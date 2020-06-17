@@ -15,13 +15,13 @@ session_start();
   <meta name="robots" content="all">
 
 
-<!-- BootStrap -->
   <link rel="stylesheet" href="./fonts/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="./bundle/animateCSS/animate.min.css">
   <link rel="stylesheet" type="text/css" href="./bundle/semanticUI/dist/semantic.min.css">
   <link rel="stylesheet" href="./bundle/dataTables/datatables.min.css">
   <link rel="stylesheet" href="./bundle/dataTables/DataTables-1.10.21/css/dataTables.semanticui.min.css">
   <link rel="stylesheet" href="./bundle/dataTables/DataTables-1.10.21/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="./css/style.css">
   <link rel="stylesheet" href="./css/skladiste.css">
   <link rel="stylesheet" media="screen and (max-width:768px)" href="./css/mobile.css">
@@ -81,29 +81,30 @@ session_start();
                   <div class='filter'>
                     <i class='fas fa-filter fa-3x'></i>
                     <div class='ui input'>
-                      <input type='text' placeholder='Oznaka artikla'>
+                      <input type='text' placeholder='Oznaka artikla' id='oznakaArtikla'>
                     </div>
                     <div class='ui input'>
-                      <input type='text' placeholder='Naziv'>
+                      <input type='text' placeholder='Naziv' id='nazivArtikla'>
                     </div>
-                    <select class='ui search dropdown'>
-                      <option value='undef'>Grupa proizvoda (sve)</option>
-                      <option value='3'>Visokogradnja</option>
-                      <option value='2'>Niskogradnja</option>
-                      <option value='1'>Unutarnje uređenje</option>
-                      <option value='0'>Vrt</option>
+                    <select class='ui search dropdown' id='grupaProizvoda'>
+                      <option value>Grupa proizvoda (sve)</option>
+                      <option value='VG'>Visokogradnja</option>
+                      <option value='NG'>Niskogradnja</option>
+                      <option value='UU'>Unutarnje uređenje</option>
+                      <option value='VT'>Vrt</option>
                     </select>
                     <div class='ui input'>
-                      <input type='number' placeholder='Cijena od'>
+                      <input type='number' placeholder='Cijena od' id='cijenaOd'>
                     </div>
                     <div class='ui input'>
-                      <input type='number' placeholder='Cijena do'>
+                      <input type='number' placeholder='Cijena do' id='cijenaDo'>
                     </div>
                     <div class='rememberDiv'>
                       <span class='rememberSpan'> Na stanju</span>
                       <div class='ui right floated compact segment'>
                         <div class='ui fitted toggle checkbox'>
-                          <input type='checkbox'>
+                          <input type='hidden' id='artikNaStanjuHidden'>
+                          <input type='checkbox' id='artikNaStanju' checked>
                           <label></label>
                         </div>
                       </div>
@@ -136,21 +137,22 @@ session_start();
             <div class='filter'>
               <i class='fas fa-filter fa-3x'></i>
               <div class='ui input'>
-                <input type='text' placeholder='Oznaka dokumenta'>
+                <input type='text' placeholder='Oznaka dokumenta' id='oznakaDokumenta'>
               </div>
               <div class='ui input'>
-                <input type='text' placeholder='Datum stvaranja'>
+                <input type='text' placeholder='Datum stvaranja' id='datumStvaranja'>
               </div>
-              <select class='ui search dropdown'>
-                <option value='undef'>Vrsta dokumenta(sve)</option>
-                <option value='IZ'>Izdatnica</option>
-                <option value='PR'>Primka</option>
+              <br/>
+              <select class='ui search dropdown' id='vrstaDokumenta'>
+                <option value selected>Vrsta dokumenta(sve)</option>
+                <option value='Izdatnica'>Izdatnica</option>
+                <option value='Primka'>Primka</option>
               </select>
               <div class='ui input'>
-                <input type='number' placeholder='Količina od'>
+                <input type='number' placeholder='Iznos od' id='kolicinaOd'>
               </div>
               <div class='ui input'>
-                <input type='number' placeholder='Količina do'>
+                <input type='number' placeholder='Iznos do' id='kolicinaDo'>
               </div>
             </div>
             <div>
@@ -162,6 +164,7 @@ session_start();
                     <th>Datum</th>
                     <th>Artikli</th>
                     <th>Iznos</th>
+                    <th>Storniraj</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -214,7 +217,30 @@ session_start();
 
     <!-- jQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+jQuery(function($){
+	$.datepicker.regional['hr'] = {
+		closeText: 'Zatvori',
+		prevText: 'Prethodni mjesec',
+		nextText: 'Slijedeći mjesec',
+		currentText: 'Danas',
+		monthNames: ['Siječanj','Veljača','Ožujak','Travanj','Svibanj','Lipanj',
+		'Srpanj','Kolovoz','Rujan','Listopad','Studeni','Prosinac'],
+		monthNamesShort: ['Sij.','Velj.','Ožu.','Tra.','Svi.','Lip.',
+		'Srp.','Kol.','Ruj.','Lis.','Stu.','Pro.'],
+		dayNames: ['Nedjelja','Ponedjeljak','Utorak','Srijeda','Četvrtak','Petak','Subota'],
+		dayNamesShort: ['Ned.','Pon.','Uto.','Sri.','Čet.','Pet.','Sub.'],
+		dayNamesMin: ['N','P','U','S','Č','P','S'],
+		weekHeader: 'Tjedan',
+		dateFormat: 'dd.mm.yy',
+		firstDay: 1,
+		isRTL: false,
+		showMonthAfterYear: false,
+		yearSuffix: ''};
+	$.datepicker.setDefaults($.datepicker.regional['hr']);
+});
+</script>
 
 <!-- AngularJS -->
 <script src="./bundle/angularJS/angular.min.js"></script>

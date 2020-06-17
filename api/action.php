@@ -54,6 +54,13 @@ if (isset($_POST["jsonid"]))
         echo Article::SaveArticle($naziv,$jmj,$price,$group);
       }
       break;
+    case 'storniraj_dokument':
+      if (isset($_POST["id"]))
+      {
+        $id = $_POST['id'];
+        echo Document::stornirajDokumentoPoId($id);
+      }
+      break;
     default:
       break;
   }
