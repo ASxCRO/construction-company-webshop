@@ -23,6 +23,12 @@ if (isset($_POST["jsonid"]))
     case 'get_all_articles_with_state':
       Article::dohvatiArtikleSaStanjemJSON();
       break;
+    case 'edit-article':
+      if (isset($_POST["id"]))
+      {
+        echo Article::urediArtikl($_POST["id"] , $_POST["naziv"], $_POST["cijena"]);
+      }
+      break;
     case 'get_article_by_id':
       if (isset($_POST["articleid"]))
       {

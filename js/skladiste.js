@@ -103,6 +103,9 @@ $.extend( true, $.fn.dataTable.defaults, {
       responsive: true
 } );
 
+window.addEventListener('DOMContentLoaded', function(){
+
+});
 
 $(document).ready(function() {
 
@@ -117,7 +120,7 @@ $(document).ready(function() {
 
   $('.money').mask("000,000,000.00", {reverse: true});
 
-  } );
+} );
 
 
  var stanje = $('#stanjeTablica').DataTable().columns.adjust();
@@ -225,7 +228,37 @@ $('#kolicinaOd,#kolicinaDo').keyup( function() {
 
 
 
-var SkladisteModule = angular.module('skladisteModule', []);
+var SkladisteModule = angular.module('skladisteModule', ['ngRoute']);
+
+
+SkladisteModule.config(function($routeProvider){
+  $routeProvider.when('/', {
+    templateUrl: 'index.html',
+    controller: 'skladisteController'
+  }).when('/skladiste', {
+    templateUrl: 'skladiste.php',
+    controller: 'skladisteController'
+  }).when('/dodajDokument', {
+    templateUrl: 'dodajDokument.php',
+    controller: 'skladisteController'
+  }).when('/dodajArtiklNaDokument', {
+    templateUrl: 'dodajArtiklNaDokument.php',
+    controller: 'skladisteController'
+  }).when('/dodajArtikl', {
+    templateUrl: 'dodajArtikl.php',
+    controller: 'skladisteController'
+  }).otherwise({redirectTo: '/'})
+});
+
+
+SkladisteModule.directive("navbarSkladiste", function () {
+  return {
+      restrict: "E",
+      templateUrl : "templates/navbar-skladiste-loggedIn.php"
+  };
+});
+
+
 
 SkladisteModule.filter('primkaIzdatnicaFilter', function () {
   return function () {
@@ -243,13 +276,6 @@ SkladisteModule.filter('primkaIzdatnicaFilter', function () {
 });
 
 
-SkladisteModule.directive("navbarSkladiste", function () {
-  return {
-      restrict: "E",
-      templateUrl : "templates/navbar-skladiste-loggedIn.html"
-  };
-});
-
 
 
 SkladisteModule.controller('skladisteController', function($scope, $http,$compile){
@@ -264,6 +290,40 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
     $http.defaults.headers.post["Content-Type"] = "application/json";
     
+    $scope.GetModal  = function (sHref,selector) {
+      try {
+        switch(selector) {
+          case "showDocumentArticles":
+            $('.ui.modal#artikliOdabranogDokumenta')
+            .modal('show').load(sHref)
+          ;
+            break;
+          case "modalEditArticle":
+            $('.ui.modal#modalEditArticle')
+            .modal({
+              closable  : false,
+              onDeny    : function(){
+                $(this).modal('hide');
+                return false;
+              },
+              onApprove : function() {
+                $scope.editArticle($('#ime-artikla-hidden').val(), $('#ime-artikla').val(), $('#cijena-artikla').val().split(',').join(''));
+                $(this).modal('hide');
+  
+              }
+            })
+            .modal('show').load(sHref)
+          ;
+            break;
+          default:
+            break;
+        
+        }
+      } catch (error) {
+        alert('error');
+      }
+    }
+  
 
 		$scope.LoadStanje = function() {
 			$http({
@@ -318,14 +378,14 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
         console.log(response.data);
           $scope.aDocuments = response.data;
           $scope.aDocuments.forEach(element => {
-            let btnhtml = "    <div class='kolicina'> <button class='ui primary button' ng-click='stornirajDokument("+element.m_id+")'>   Storniraj  </button>         </div>";
+            let btnhtml = "    <div class='kolicina'> <button class='ui primary button' ng-click='modalZaStorniranjeDokumenta("+element.m_id+")'>   Storniraj  </button>         </div>";
             let temp = $compile(btnhtml)($scope);
             var vrstaDokumenta = function() { if(element.m_vrsta == 0){return "Primka"}else{return "Izdatnica"}};
             $('#dokumentiTablica').dataTable().fnAddData( [
               element.m_id,
               vrstaDokumenta, 
               element.m_datum.substr(0,10).split('-').reverse().join('.'),
-              "<i class='fab fa-wpexplorer fa-2x clickBait' aria-hidden='true' onclick=\"GetModal(\'http://localhost/Projekt/modals.php?modal_id=showDocumentArticles&data_id="+element.m_id+"\');\"></i>",
+              "<i class='fab fa-wpexplorer fa-2x clickBait' aria-hidden='true' onclick=\"GetModal(\'http://localhost/Projekt/modals.php?modal_id=showDocumentArticles&data_id="+element.m_id+"\','showDocumentArticles');\"></i>",
               $scope.convertToMoney(Math.abs(element.m_iznos)),
               "<span class='stornirajDokument' id='"+element.m_id+"'></span>"] 
             );
@@ -349,7 +409,14 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
         })
       }).then(function successCallback(response) {
           if(response.data == 1) {
-            window.location.pathname="/Projekt/skladiste.php";
+            alert('Uspješno ste stornirali dokument!');
+            var dokumentiTablica  = $('#dokumentiTablica').DataTable();
+            dokumentiTablica.clear().draw();
+            dokumentiTablica.columns.adjust().draw(); // Redraw the DataTable
+            $scope.LoadDocuments();
+            setTimeout(() => {
+              dokumentiTablica.columns.adjust().draw(); // Redraw the DataTable
+            }, 200);
           }
           else {
             alert("Greška. Nešto je pošlo po zlu pri uklanjanju dokumenta iz baze!")
@@ -358,6 +425,8 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
         console.log("Greska");
       });
     };
+
+
 
     
     
@@ -394,10 +463,11 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
           }
 
 
-
           $scope.aArticles.forEach(article => {
             let btnhtml = "<i class='fas fa-plus-circle fa-2x addArticleToDocumentTd' ng-click='addArticleToDocument("+article.m_id+")'></i>";
+            let btnedithtml = "<i class='fas fa-edit fa-2x addArticleToDocumentTd'  ng-click=\"GetModal(\'http://localhost/Projekt/modals.php?modal_id=modalEditArticle&data_id="+article.m_id+"\','modalEditArticle');\"></i>";
             let temp = $compile(btnhtml)($scope);
+            let tempedit = $compile(btnedithtml)($scope);
 
             $('#artikliTablica').dataTable().fnAddData( [
               article.m_id,
@@ -405,9 +475,11 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
               article.m_jmj,
               article.m_cijena,
               article.m_grupa,
+              "",
               ""
             ]);
             angular.element($('#artikliTablica tr:last-child td:last-child')).append(temp);
+            angular.element($('#artikliTablica tr:last-child td:nth-child(6)')).append(tempedit);
 
           });
 				}, function errorCallback(response) {
@@ -437,13 +509,13 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
       {
         case "izdatnica":
           $scope.artikliNaDokumentuIzdatnice = $scope.artikliNaDokumentu; 
-          if(window.location.pathname == "/Projekt/dodajDokument.html") {
+          if(window.location.pathname == "/Projekt/dodajDokument.php") {
             RedirectToNewIzdatnica();
           }
           break;
         case "primka":
           $scope.artikliNaDokumentuPrimke = $scope.artikliNaDokumentu;
-          if(window.location.pathname == "/Projekt/dodajDokument.html") {
+          if(window.location.pathname == "/Projekt/dodajDokument.php") {
             RedirectToNewPrimka();
           }
           break;
@@ -464,7 +536,7 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
         $scope.artikliNaDokumentu = [];
         localStorage.setItem("artikliNaDokumentu", JSON.stringify($scope.artikliNaDokumentu));
       }
-      window.location.pathname = '/Projekt/dodajArtiklNaDokument.html';
+      window.location.pathname = '/Projekt/dodajArtiklNaDokument.php';
     };
     
     $scope.addArticleToDocument = function (articleId) 
@@ -480,7 +552,7 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
       setTimeout(function() {
         poljeArtikala.push(JSON.parse(localStorage.getItem('article')));
         localStorage.setItem("artikliNaDokumentu", JSON.stringify(poljeArtikala));
-        window.location.pathname = '/Projekt/dodajDokument.html';
+        window.location.pathname = '/Projekt/dodajDokument.php';
 
 
 
@@ -598,6 +670,23 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
       .modal('show');
     };
 
+    
+    $scope.modalZaStorniranjeDokumenta = function(id) {
+      $('#storniranjeDokumenta')
+      .modal({
+        closable  : false,
+        onDeny    : function(){
+          $(this).modal('hide');
+          return false;
+        },
+        onApprove : function() {
+          $scope.stornirajDokument(id);
+        }
+      })
+      .modal('show');
+    };
+
+
     $scope.convertToMoney = function(number) {
       if (isNaN(number)){
         return 0.00;
@@ -624,6 +713,35 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
           }
           else {
             alert("Greška. Nešto je pošlo po zlu pri spremanju artikla u bazu!")
+          }
+      }, function errorCallback(response) {
+        console.log("Greska");
+      });
+    };
+
+    $scope.editArticle = function (articleId, articlenaziv, articlecijena)
+    {
+      $http({
+        method: 'POST',
+        url: $scope.baseUrl + "/Projekt/api/action.php",
+        data: JSON.stringify({				
+          jsonid: "edit-article",
+          id: articleId,
+          naziv: articlenaziv,
+          cijena: articlecijena
+        })
+      }).then(function successCallback(response) {
+          if(response.data == 1) {
+            var artikliTablica  = $('#artikliTablica').DataTable();
+            artikliTablica.clear().draw();
+            artikliTablica.columns.adjust().draw(); // Redraw the DataTable
+            $scope.LoadArticles();
+            setTimeout(() => {
+              artikliTablica.columns.adjust().draw(); // Redraw the DataTable
+            }, 200);
+          }
+          else {
+            alert("Greška. Nešto je pošlo po zlu pri uređivanju artikla!")
           }
       }, function errorCallback(response) {
         console.log("Greska");

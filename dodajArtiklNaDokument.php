@@ -27,9 +27,11 @@
   <!-- Navbar -->
   <navbar-skladiste></navbar-skladiste>
 
-
-  <!-- Tabs -->
-  <section id="showcase">
+  <?php 
+session_start();
+if(isset($_SESSION['login'])) { 
+  
+  echo '<section id="showcase">
     <div class="showcase-content-skladiste">
       <section id="tabs" class="text-primary">
           <div class="ui top attached tabular menu">
@@ -50,6 +52,7 @@
                     <th>JMJ</th>
                     <th>Cijena</th>
                     <th>Grupa</th>
+                    <th>Uredi Artikl</th>
                     <th>Dodaj</th>
                   </tr>
                 </thead>
@@ -61,7 +64,34 @@
           </div>
       </section>
     </div>
-  </section>
+  </section>';
+}
+else {
+  echo '
+  <section id="showcase">
+  <div class="showcase-content-skladiste">
+  <section id="tabs" class="text-primary">
+  <div class="ui top attached tabular menu">
+  <a class="item active" data-tab="first">Skladište</a>
+  </div>
+  <div class="ui bottom attached tab segment active" data-tab="first" id="skladisteTabContent">
+  
+  <div class="flex-container">
+  <div class="home-header">
+  <h2 class="l-heading">Da bi pristupili skladištu, morate se prijaviti.</h2>
+  </div>
+<a href="./sign.html" class="btn btn-primary btn-lg">Prijava</a>
+</div>
+</div>
+</section>
+</div>
+</section>';
+}
+
+ ?>
+<div class="ui basic modal" id="modalEditArticle">
+
+  </div>
 
 
   <!-- Footer -->
@@ -71,28 +101,52 @@
 
 
 
-  <!-- jQuery -->
-  <script src="./bundle/jQuery/jquery-3.5.1.min.js"></script>
-  <script src="./bundle/jQuery/jquery.initialize.min.js"></script>
+  <div id="scripts">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        jQuery(function($){
+          $.datepicker.regional['hr'] = {
+            closeText: 'Zatvori',
+            prevText: 'Prethodni mjesec',
+            nextText: 'Slijedeći mjesec',
+            currentText: 'Danas',
+            monthNames: ['Siječanj','Veljača','Ožujak','Travanj','Svibanj','Lipanj',
+            'Srpanj','Kolovoz','Rujan','Listopad','Studeni','Prosinac'],
+            monthNamesShort: ['Sij.','Velj.','Ožu.','Tra.','Svi.','Lip.',
+            'Srp.','Kol.','Ruj.','Lis.','Stu.','Pro.'],
+            dayNames: ['Nedjelja','Ponedjeljak','Utorak','Srijeda','Četvrtak','Petak','Subota'],
+            dayNamesShort: ['Ned.','Pon.','Uto.','Sri.','Čet.','Pet.','Sub.'],
+            dayNamesMin: ['N','P','U','S','Č','P','S'],
+            weekHeader: 'Tjedan',
+            dateFormat: 'dd.mm.yy',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ''};
+          $.datepicker.setDefaults($.datepicker.regional['hr']);
+        });
+    </script>
   
-  <!-- AngularJS -->
-  <script src="./bundle/angularJS/angular.min.js"></script>
-
-  <!-- DataTables PlugIn -->
-  <script src="./bundle/dataTables/DataTables-1.10.21/js/jquery.dataTables.min.js"></script>
-  <script src="./bundle/dataTables/DataTables-1.10.21/js/dataTables.semanticui.min.js"></script>
-
-  <!-- Semantic UIJS -->
-  <script src="./bundle/semanticUI/dist/semantic.min.js"></script>
-
-
-  <!-- Globals -->
-  <script src="./js/globals.js"></script>
-
-
-  <!-- Local JS  -->
-  <script src="./js/skladiste.js"></script>
+    <!-- AngularJS -->
+    <script src="./bundle/jquery/jquery.mask.js"></script>
+    <script src="./bundle/angularJS/angular.min.js"></script>
+    <script src="./bundle/angularJS/angular-route.min.js"></script>
+  
+    <!-- DataTables PlugIn -->
+    <script src="./bundle/dataTables/DataTables-1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="./bundle/dataTables/DataTables-1.10.21/js/dataTables.semanticui.min.js"></script>
+  
+    <!-- Semantic UIJS -->
+    <script src="./bundle/semanticUI/dist/semantic.min.js"></script>
+  
+    <!-- Globals -->
+    <script src="./js/globals.js"></script>
+    <!-- Local JS  -->
+    <script src="./js/skladiste.js"></script>
+  </div>
 </body>
 
 </html>

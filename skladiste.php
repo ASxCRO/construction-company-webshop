@@ -76,7 +76,7 @@ session_start();
           <div class='ui bottom attached tab segment' data-tab='second' id='stanjeTabContent'>
                   <div class='header'>
                     <h2 class='l-heading'>Stanje na skladištu</h2>
-                    <div class='plus-icon' onclick='window.location.pathname = \"/Projekt/dodajArtikl.html\"'><i class='fas fa-plus-circle fa-5x'></i><span> Dodaj Artikl</span></div>
+                    <div class='plus-icon' onclick='window.location.pathname = \"/Projekt/dodajArtikl.php\"'><i class='fas fa-plus-circle fa-5x'></i><span> Dodaj Artikl</span></div>
                   </div>
                   <div class='filter'>
                     <i class='fas fa-filter fa-3x'></i>
@@ -132,7 +132,7 @@ session_start();
           <div class='ui bottom attached tab segment' data-tab='third' id='dokumentiTabContent'>
             <div class='header'>
               <h2 class='l-heading'>Pregled dokumenata</h2>
-              <div class='plus-icon' onclick=\"window.location.pathname = '/Projekt/dodajDokument.html'\"><i class='fas fa-plus-circle fa-5x'></i><span> Dodaj Dokument</span></div>
+              <div class='plus-icon' onclick=\"window.location.pathname = '/Projekt/dodajDokument.php'\"><i class='fas fa-plus-circle fa-5x'></i><span> Dodaj Dokument</span></div>
             </div>
             <div class='filter'>
               <i class='fas fa-filter fa-3x'></i>
@@ -202,10 +202,30 @@ session_start();
   ?>  
 
 
-<div class="ui modal">
+<div class="ui modal" id="artikliOdabranogDokumenta">
   <i class="close icon"></i>
   
 </div>
+
+<div class="ui basic modal" id="storniranjeDokumenta">
+    <div class="ui icon header">
+      <i class="archive icon"></i>
+      Jeste li sigurni da želite stornirati odabrani dokument?
+    </div>
+    <div class="content text-align" style="text-align: center; margin: auto;">
+      <p>Nije moguće zaustaviti storniranje!</p>
+    </div>
+    <div class="actions">
+      <div class="ui red basic cancel inverted button">
+        <i class="remove icon"></i>
+        Ne
+      </div>
+      <div class="ui blue ok inverted button">
+        <i class="checkmark icon"></i>
+        Da
+      </div>
+    </div>
+  </div>
 
 <!-- Tabs -->
 <!-- Footer -->
@@ -213,49 +233,52 @@ session_start();
   <p>Copyright &copy; 2020, ASXCRO. All Rights Reserved.</p>
 </footer>
 
+  
+<div id="scripts">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+      jQuery(function($){
+        $.datepicker.regional['hr'] = {
+          closeText: 'Zatvori',
+          prevText: 'Prethodni mjesec',
+          nextText: 'Slijedeći mjesec',
+          currentText: 'Danas',
+          monthNames: ['Siječanj','Veljača','Ožujak','Travanj','Svibanj','Lipanj',
+          'Srpanj','Kolovoz','Rujan','Listopad','Studeni','Prosinac'],
+          monthNamesShort: ['Sij.','Velj.','Ožu.','Tra.','Svi.','Lip.',
+          'Srp.','Kol.','Ruj.','Lis.','Stu.','Pro.'],
+          dayNames: ['Nedjelja','Ponedjeljak','Utorak','Srijeda','Četvrtak','Petak','Subota'],
+          dayNamesShort: ['Ned.','Pon.','Uto.','Sri.','Čet.','Pet.','Sub.'],
+          dayNamesMin: ['N','P','U','S','Č','P','S'],
+          weekHeader: 'Tjedan',
+          dateFormat: 'dd.mm.yy',
+          firstDay: 1,
+          isRTL: false,
+          showMonthAfterYear: false,
+          yearSuffix: ''};
+        $.datepicker.setDefaults($.datepicker.regional['hr']);
+      });
+  </script>
 
-    <!-- jQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-jQuery(function($){
-	$.datepicker.regional['hr'] = {
-		closeText: 'Zatvori',
-		prevText: 'Prethodni mjesec',
-		nextText: 'Slijedeći mjesec',
-		currentText: 'Danas',
-		monthNames: ['Siječanj','Veljača','Ožujak','Travanj','Svibanj','Lipanj',
-		'Srpanj','Kolovoz','Rujan','Listopad','Studeni','Prosinac'],
-		monthNamesShort: ['Sij.','Velj.','Ožu.','Tra.','Svi.','Lip.',
-		'Srp.','Kol.','Ruj.','Lis.','Stu.','Pro.'],
-		dayNames: ['Nedjelja','Ponedjeljak','Utorak','Srijeda','Četvrtak','Petak','Subota'],
-		dayNamesShort: ['Ned.','Pon.','Uto.','Sri.','Čet.','Pet.','Sub.'],
-		dayNamesMin: ['N','P','U','S','Č','P','S'],
-		weekHeader: 'Tjedan',
-		dateFormat: 'dd.mm.yy',
-		firstDay: 1,
-		isRTL: false,
-		showMonthAfterYear: false,
-		yearSuffix: ''};
-	$.datepicker.setDefaults($.datepicker.regional['hr']);
-});
-</script>
+  <!-- AngularJS -->
+  <script src="./bundle/angularJS/angular.min.js"></script>
+  <script src="./bundle/angularJS/angular-route.min.js"></script>
 
-<!-- AngularJS -->
-<script src="./bundle/angularJS/angular.min.js"></script>
+  <!-- DataTables PlugIn -->
+  <script src="./bundle/dataTables/DataTables-1.10.21/js/jquery.dataTables.min.js"></script>
+  <script src="./bundle/dataTables/DataTables-1.10.21/js/dataTables.semanticui.min.js"></script>
 
-<!-- DataTables PlugIn -->
-<script src="./bundle/dataTables/DataTables-1.10.21/js/jquery.dataTables.min.js"></script>
-<script src="./bundle/dataTables/DataTables-1.10.21/js/dataTables.semanticui.min.js"></script>
-
-<!-- Semantic UIJS -->
+  <!-- Semantic UIJS -->
   <script src="./bundle/semanticUI/dist/semantic.min.js"></script>
 
   <!-- Globals -->
   <script src="./js/globals.js"></script>
   <!-- Local JS  -->
   <script src="./js/skladiste.js"></script>
+</div>
+
 </body>
 
 </html>

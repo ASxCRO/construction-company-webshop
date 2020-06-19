@@ -318,6 +318,21 @@ class Article
     return $isSuccessful;
 
   }
+  public static function urediArtikl($id,$naziv,$cijena)
+  {
+    $isSuccessful = false;
+    try {
+      $sQuery = "UPDATE articles SET naziv = '$naziv', cijena = '$cijena' WHERE id = '$id'"; 
+      $GLOBALS['connection']->exec($sQuery);
+      $isSuccessful = true;
+    }
+    catch(PDOException $e) {
+      return $sQuery . "<br>" . $e->getMessage();
+    }
+
+    return $isSuccessful;
+
+  }
 }
 
 // ************************************************************************************************************************************************************************************************************************
