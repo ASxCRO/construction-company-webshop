@@ -20,9 +20,15 @@ a {
 }
 
 .container {
-  margin: 10vh auto;
+  margin: 0 auto;
   max-width: 400px;
   padding: 20px;
+}
+
+.fa-arrow-alt-circle-up:before {
+  content: "\f35b";
+  display: block;
+  margin-bottom: -20vh;
 }
 
 .form-wrap {

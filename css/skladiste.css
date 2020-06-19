@@ -20,19 +20,11 @@
   padding-right: 0px!important;
 }
 
-.showcase-skladiste {
-  height: 90%!important;
-}
-
-#showcase {
-  min-height: 100%!important;
-  height: 100%;
-}
 
 .showcase-content-skladiste {
 
   text-align: center;
-  height: 100%;
+  min-height: 100vh;
   padding: 2rem 2rem;
   /* Overlay */
   background-color: rgba(0,0,0,0.6)
@@ -40,7 +32,9 @@
 
 
 #stanjeTabContent #showcase .showcase-content .l-heading,
-#dokumentiTabContent #showcase .showcase-content .l-heading {
+#dokumentiTabContent #showcase .showcase-content .l-heading,
+#primkaTabContent #showcase .showcase-content .l-heading,
+#izdatnicaTabContent #showcase .showcase-content .l-heading {
   margin: 0;
   text-align: left;
 }
@@ -128,7 +122,9 @@ table.display {
 
 #skladisteTabContent,
 #stanjeTabContent,
-#dokumentiTabContent{
+#dokumentiTabContent,
+#primkaTabContent,
+#izdatnicaTabContent{
   background: rgba(0,0,0,0);
   padding: 2rem;
 }
@@ -156,4 +152,13 @@ table.display {
 
 table.display {
   min-width: 100%;
+}
+
+.clickBait:hover  {
+  color: #333;
+  cursor:pointer;
+}
+
+.article {
+  border-color: #428bca;
 }
