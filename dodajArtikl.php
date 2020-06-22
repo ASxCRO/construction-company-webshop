@@ -162,6 +162,8 @@ echo '<section id="showcase">
           });
         </script>
         
+    <script src="./bundle/jquery/jquery.mask.js"></script>
+
     <!-- AngularJS -->
     <script src="./bundle/angularJS/angular.min.js"></script>
     <script src="./bundle/angularJS/angular-route.min.js"></script>

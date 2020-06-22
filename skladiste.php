@@ -100,7 +100,7 @@ session_start();
                       <input type='number' placeholder='Cijena do' id='cijenaDo'>
                     </div>
                     <div class='rememberDiv'>
-                      <span class='rememberSpan'> Na stanju</span>
+                      <span class='rememberSpan'> Samo na stanju</span>
                       <div class='ui right floated compact segment'>
                         <div class='ui fitted toggle checkbox'>
                           <input type='hidden' id='artikNaStanjuHidden'>
@@ -108,6 +108,8 @@ session_start();
                           <label></label>
                         </div>
                       </div>
+                      <span class='rememberSpan'> Svi artikli</span>
+
                     </div>
                   </div>
                   <div>

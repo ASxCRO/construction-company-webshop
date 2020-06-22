@@ -104,7 +104,7 @@ echo'  <section id="showcase">
                     <i class="cart icon"></i>
                     Iznos
                   </button>
-                  <p class="l-heading" style="margin-left: 1rem"> {{convertToMoney(getTotal(artikliNaDokumentuPrimke)) || 0}} HRK</p>
+                  <p class="l-heading" id="total" style="margin-left: 1rem"> {{convertToMoney(getTotal(artikliNaDokumentuPrimke)) || 0}} HRK</p>
                 </div>
                 <a class="btn btn-primary btn-lg"><div class="plus-icon-add" ng-click="modalZaSpremanjeDokumenta(\'0\')"><i class="fas fa-plus-circle fa-5x"></i></div></a>
             </form>
@@ -240,6 +240,7 @@ else {
           $.datepicker.setDefaults($.datepicker.regional['hr']);
         });
     </script>
+    <script src="./bundle/jquery/jquery.mask.js"></script>
   
     <!-- AngularJS -->
     <script src="./bundle/angularJS/angular.min.js"></script>

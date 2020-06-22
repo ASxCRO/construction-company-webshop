@@ -4,10 +4,12 @@ session_start();
 echo "
     <nav id='navbar'>
     <div class='ui search'>
+
         <div class='ui icon input'>
-            <input class='prompt' type='text' placeholder='Što vas zanima?'>
-            <i class='search icon'></i>
-        </div>
+         "; if(!isset($_SESSION['login'])) { 
+           echo " <input class='prompt' type='text' placeholder='Što vas zanima?' id='redirectBySearch'>
+           <i class='search icon'></i>"; }
+        echo "</div>
         <div class='results'>
 
         </div>

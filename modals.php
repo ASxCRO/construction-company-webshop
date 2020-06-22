@@ -52,6 +52,7 @@ switch($sModalID)
                 Povratak
                 </div>
             </div>';
+      break;
   case 'modalEditArticle':
     $artikl = Article::dohvatiArtiklIzBazePoId($nDataID);
     echo '    <div class="ui icon header">
