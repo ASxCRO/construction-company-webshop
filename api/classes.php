@@ -146,6 +146,26 @@ class Document
     echo $myJSON;
   }
 
+  public static function SaveFirstDocument($article)
+  {
+    $isSuccessful = false;
+    try {
+      $sQueryDoc = "INSERT INTO documents VALUES (NULL,'0',Now(),'0')"; 
+      $GLOBALS['connection']->exec($sQueryDoc);
+      
+      $lastDocument = Document::dohvatiZadnjiDokumentIzBaze();
+      $sQueryDocArt = "INSERT INTO document_articles VALUES (NULL,'$lastDocument->m_id','$article->m_id','0.00')"; 
+      $GLOBALS['connection']->exec($sQueryDocArt);
+      $isSuccessful = true;
+    }
+    catch(PDOException $e) {
+      echo $sQuery . "<br>" . $e->getMessage();
+    }
+
+    return $isSuccessful;
+  
+  }
+
   public static function SaveDocument($articles,$type,$date,$amount,$articlesAmount)
   {
     $isSuccessful = false;
@@ -221,6 +241,16 @@ class Article
     $this->m_grupa = $grupa;
     $this->m_jmj = $jmj;
     $this->m_cijena = $cijena;
+  }
+
+  public static function dohvatiZadnjiArtiklIzBaze()
+  {
+    $sQuery = "SELECT * FROM articles ORDER BY id DESC LIMIT 1"; 
+    $oRecord = $GLOBALS['connection']->query($sQuery); 
+    while($oRow = $oRecord->fetch(PDO::FETCH_BOTH)) 
+    { 
+      return new Article($oRow['id'],$oRow['naziv'],$oRow['jmj'],$oRow['cijena'],$oRow['grupa']);
+    }
   }
 
   public static function dohvatiArtikleIzBaze()
@@ -309,6 +339,10 @@ class Article
     try {
       $sQuery = "INSERT INTO articles VALUES (NULL,'$naziv','$jmj','$price','$group')"; 
       $GLOBALS['connection']->exec($sQuery);
+
+      $article =  Article::dohvatiZadnjiArtiklIzBaze();
+
+      Document::SaveFirstDocument($article);
       $isSuccessful = true;
     }
     catch(PDOException $e) {

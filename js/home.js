@@ -1,9 +1,9 @@
 var content = [
-  { title: 'Kontakt' },
-  { title: 'Adresa' },
-  { title: 'Partneri' },
-  { title: 'Projekti' },
-  { title: 'Prozvodi' },
+  { title: 'Što Mi Radimo' },
+  // { title: 'Adresa' },
+  // { title: 'Partneri' },
+  // { title: 'Projekti' },
+  // { title: 'Prozvodi' },
   { title: 'Prijava' }
 ];
 
@@ -14,13 +14,30 @@ $('.ui.search')
 
   $(document).on('click','a.result',
     function() {  
-      console.log($(this).find('.title')[0].innerText);
+      var result = $(this).find('.title')[0].innerText;
+      console.log(result);
+      RedirectBySearch(result);
+
     } 
   );
 
   $('.menu .item')
   .tab()
 ;
+
+function RedirectBySearch(searchValue) {
+  switch(searchValue) {
+    case "Što Mi Radimo":
+      $('#showcase a').click();
+      break;
+    case "Prijava":
+      window.location.pathname = "/Projekt/sign.html"
+      break;
+    default:
+      break;
+  }
+}
+
 
 
 // Sticky menu background

@@ -2,12 +2,13 @@ function GetModal(sHref,selector) {
     try {
       switch(selector) {
         case "showDocumentArticles":
-          $('.ui.modal#artikliOdabranogDokumenta')
+          $('#artikliOdabranogDokumenta')
           .modal('show').load(sHref)
         ;
           break;
         case "modalEditArticle":
-          $('.ui.modal#modalEditArticle')
+          alert('ulaz artikli edit');
+          $('#modalEditArticle')
           .modal({
             closable  : false,
             onDeny    : function(){

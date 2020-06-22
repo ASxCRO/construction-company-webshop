@@ -1,5 +1,7 @@
 $('.menu .item').tab();
 
+
+
 function twoDigits(d) {
   if(0 <= d && d < 10) return "0" + d.toString();
   if(-10 < d && d < 0) return "-0" + (-1*d).toString();
@@ -25,6 +27,8 @@ function RedirectToStanjeTab()
   let stanjeTabContent = $('#stanjeTabContent');
   $(stanjeTabHeader).addClass('active');
   $(stanjeTabContent).addClass('active');
+  $('#artikNaStanju').click();
+  $('#artikNaStanju').click();
 
 }
 
@@ -283,8 +287,14 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
         $scope.LoadStanje();
         $scope.LoadDocuments();
         $scope.LoadArticles();
-        
+        if(JSON.parse(localStorage.getItem("kolicineArtikalaNaDokumentu")).length == 0)  {
+          
+        } else {
+          $scope.kolicina =  JSON.parse(localStorage.getItem("kolicineArtikalaNaDokumentu"));
+          console.log($scope.kolicina);
+        }
     });
+
     $scope.aStanje = [];
     $scope.aDocuments = [];
     $scope.baseUrl = window.location.protocol + '//' + window.location.host;
@@ -490,8 +500,8 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
     $scope.getTotal = function(artikli){
       var total = 0;
       for(var i = 0; i < artikli.length; i++){
-          var artikl = artikli[i];
-          total += (artikl.m_cijena * $scope.kolicina[i]);
+          let artikl = artikli[i];
+          total += (artikl.m_cijena * $scope.kolicina[i] ) || 0;
       }
       return parseFloat(total).toFixed(2) || parseFloat(0).toFixed(2);
     }
@@ -527,6 +537,8 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
 
 
     $scope.dodajArtiklNaDokument = function(tipDokumenta) {
+
+      localStorage.setItem("kolicineArtikalaNaDokumentu", JSON.stringify($scope.kolicina));
       localStorage.setItem("artikliNaDokumentu", JSON.stringify($scope.artikliNaDokumentu));
       let trenutniTipDokumenta = localStorage.getItem("tipDokumenta");
       localStorage.removeItem("tipDokumenta");
@@ -588,15 +600,14 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
       }
       for (let j = 0; j < poljeArtikala.length; j++) {
         let article = poljeArtikala[j];
-        console.log(poljeArtikala);
-        console.log(article.m_id+" "+id);
         if(article.m_id == id)
         {
-          console.log("true");
           var index = poljeArtikala.indexOf(article);
           poljeArtikala.splice(index,1);
           localStorage.setItem("artikliNaDokumentu", JSON.stringify(poljeArtikala));
           $scope.aArticles = JSON.parse(localStorage.getItem("artikliNaDokumentu"));
+          $scope.kolicina.splice(index,1);
+          localStorage.setItem("kolicineArtikalaNaDokumentu", JSON.stringify($scope.kolicina));
            location.reload();
         }
       }
@@ -606,7 +617,7 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
     {
       var poljeArtikala = [];
       tipDokumenta == "0" ? poljeArtikala = $scope.artikliNaDokumentuPrimke : poljeArtikala = $scope.artikliNaDokumentuIzdatnice;
-      
+
       $http({
         method: 'POST',
         url: $scope.baseUrl + "/Projekt/api/action.php",
@@ -637,12 +648,13 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
     $scope.modalZaSpremanjeDokumenta = function(td) {
       var poljeArtikala = [];
       td == "0" ? poljeArtikala = $scope.artikliNaDokumentuPrimke : poljeArtikala = $scope.artikliNaDokumentuIzdatnice;
-      
       var isSuccessful = ($scope.kolicina.length == poljeArtikala.length) && ($scope.kolicina.length > 0);
+
       if(isSuccessful) {
         $scope.kolicina.forEach(element => {
-          if(parseFloat(element).toFixed(2) < 0.01) {
+          if(parseFloat(element).toFixed(2) < 0.01 || parseFloat(element).toFixed(2) == null ) {
             isSuccessful = false;
+            alert('količina određenih artikala nije veća od 0.01');
           }
         });
       }
@@ -660,6 +672,7 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
             } else if (td == "1") {
               $scope.saveDocumentWithArticles('1');
             }
+            localStorage.removeItem('kolicineArtikalaNaDokumentu');
           }
           else {
             $(this).modal('hide');
@@ -710,9 +723,8 @@ SkladisteModule.controller('skladisteController', function($scope, $http,$compil
       }).then(function successCallback(response) {
           if(response.data == 1) {
             window.location.pathname="/Projekt/skladiste.php";
-          }
-          else {
-            alert("Greška. Nešto je pošlo po zlu pri spremanju artikla u bazu!")
+          } else {
+            alert("Greška. Nešto je pošlo po zlu pri spremanju artikla u bazu! error:" + response.data)
           }
       }, function errorCallback(response) {
         console.log("Greska");
