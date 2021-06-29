@@ -1,1 +1,1 @@
-# vsmti-gradnja-web
+# Construction Company Web Shop
